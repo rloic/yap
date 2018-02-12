@@ -11,31 +11,19 @@
 
 class Automata;
 
-class State {
+class State : public HasPtr<State> {
 public:
-    explicit State(std::string name)
-            : mName{std::move(name)} {
-    }
-
     virtual ~State() = default;
 
-    friend std::ostream &operator<<(std::ostream &os, const State &state) {
-        os << MAG << state.mName << RESET;
-        return os;
-    }
+    virtual bool Transition(Automata &automata, Symbol::Ptr symbol, bool debug) = 0;
 
-    void error(Symbol *s) {
-        std::cout << GRAS RGE << "Unexpected symbol: " << RESET;
-        if (s) std::cout << JAU << *s << RESET;
-        std::cout << std::endl;
-    }
+    virtual State::Ptr GoTo();
 
-    virtual bool transition(Automata &automata, Symbol *symbol, bool debug = false) = 0;
-
-    virtual State* GoTo() {
-        assert(false && "Can't be here.");
-    };
+    friend std::ostream &operator<<(std::ostream &os, const State &state);
 
 protected:
+    explicit State(std::string &&name);
+
+private:
     std::string mName;
 };

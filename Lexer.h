@@ -5,18 +5,17 @@
 
 class Lexer {
 public:
-    explicit Lexer(std::string input);
+    explicit Lexer(std::string &&input);
 
     virtual ~Lexer() = default;
 
-    Symbol* getnext();
+    Symbol::Ptr GetNext();
 
-    void movenext();
+    void MoveNext();
 
 private:
     std::string mInput;
     size_t mCursor;
-    std::map<char, Symbol*> mSimpleDecals;
-
-    mutable size_t mNextSymbolSize;
+    std::map<char, Symbol::Ptr> mSimpleTokens;
+    size_t mNextSymbolSize;
 };

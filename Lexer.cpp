@@ -1,38 +1,32 @@
 #include "Lexer.h"
 
-#include <cassert>
-
-#include "Symbols/Plus.h"
-#include "Symbols/Mult.h"
-#include "Symbols/LPar.h"
-#include "Symbols/RPar.h"
-#include "Symbols/Eof.h"
+#include "Symbols/TerminalSymbols.h"
 #include "Symbols/Val.h"
 
-Lexer::Lexer(std::string input)
+Lexer::Lexer(std::string &&input)
         : mInput{std::move(input)},
           mNextSymbolSize{} {
 
-    mSimpleDecals['+'] = new Plus;
-    mSimpleDecals['*'] = new Mult;
-    mSimpleDecals['('] = new LPar;
-    mSimpleDecals[')'] = new RPar;
-    mSimpleDecals['\0'] = new Eof;
+    mSimpleTokens['+'] = Plus::Create();
+    mSimpleTokens['*'] = Mult::Create();
+    mSimpleTokens['('] = LPar::Create();
+    mSimpleTokens[')'] = RPar::Create();
+    mSimpleTokens['\0'] = Eof::Create();
 }
 
-inline bool isInt(char c) {
+static inline bool isInt(char c) {
     return c >= '0' && c <= '9';
 }
 
-Symbol *Lexer::getnext() {
-    auto found = mSimpleDecals.find(mInput[mCursor]);
-    if (found != mSimpleDecals.end()) {
+Symbol::Ptr Lexer::GetNext() {
+    auto found = mSimpleTokens.find(mInput[mCursor]);
+    if (found != mSimpleTokens.end()) {
         mNextSymbolSize = 1U;
-        return new Symbol(*found->second);
+        return Symbol::Clone(found->second);
     } else {
         int value = 0;
         auto cursor{mCursor};
-        while (mInput[cursor] != '\0' && mSimpleDecals.find(mInput[cursor]) == mSimpleDecals.end()) {
+        while (mInput[cursor] != '\0' && mSimpleTokens.find(mInput[cursor]) == mSimpleTokens.end()) {
             const char current = mInput[cursor];
             if (isInt(current)) {
                 value *= 10;
@@ -46,13 +40,13 @@ Symbol *Lexer::getnext() {
             ++cursor;
         }
         mNextSymbolSize = cursor - mCursor;
-        return new Val{value};
+        return Val::Create(value);
     }
 }
 
-void Lexer::movenext() {
+void Lexer::MoveNext() {
     if (mNextSymbolSize == 0U) {
-        getnext();
+        GetNext();
     }
     mCursor += mNextSymbolSize;
     mNextSymbolSize = 0U;

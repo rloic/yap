@@ -2,37 +2,40 @@
 #include "States.h"
 #include "Symbols/Expr.h"
 
-void Automata::read() {
-    mStates.emplace_back(new State0{});
-    Symbol *current;
+Automata::Automata(Lexer lexer, bool debug)
+        : mLexer{lexer},
+          mDebug{debug} {}
+
+void Automata::Read() {
+    mStates.emplace_back(State0::Create());
+    Symbol::Ptr current;
     do {
-        current = mLexer.getnext();
+        current = mLexer.GetNext();
         if (mDebug) {
-            debug();
+            DebugStacks();
             std::cout << "Symbol: " << *current << std::endl;
         }
-    } while (mStates.back()->transition(*this, current, mDebug));
-    if (mDebug) debug();
+    } while (mStates.back()->Transition(*this, current, mDebug));
+    if (mDebug) DebugStacks();
 
-    if (mSymbols.empty() || !dynamic_cast<Expr *>(mSymbols.back())) {
-        std::cout << GRAS RGE << "No result due to error." << RESET<< std::endl;
+    if (mSymbols.empty() || !dynamic_cast<Expr *>(mSymbols.back().get())) {
+        std::cout << GRAS RGE << "No result due to Error." << RESET << std::endl;
     } else {
         std::cout << GRAS VRT << "Result: " << RESET
-                  << VRT << dynamic_cast<Expr *>(mSymbols.back())->value() << RESET
+                  << VRT << dynamic_cast<Expr *>(mSymbols.back().get())->value() << RESET
                   << std::endl;
     }
 }
 
-void Automata::shift(Symbol *symbol, State *state) {
+void Automata::Shift(Symbol::Ptr symbol, State::Ptr state) {
     mSymbols.push_back(symbol);
     mStates.push_back(state);
 
-    mLexer.movenext();
+    mLexer.MoveNext();
 }
 
-void Automata::reduce(int n, Symbol *symbol) {
+void Automata::Reduce(int n, Symbol::Ptr symbol) {
     for (int i = 0; i < n; ++i) {
-        delete mStates.back();
         mStates.pop_back();
 
         // Symbols are popped in the states' transitions
@@ -41,7 +44,13 @@ void Automata::reduce(int n, Symbol *symbol) {
     mStates.push_back(mStates.back()->GoTo());
 }
 
-void Automata::debug() const {
+Symbol::Ptr Automata::PopSymbol() {
+    Symbol::Ptr popped{mSymbols.back()};
+    mSymbols.pop_back();
+    return popped;
+}
+
+void Automata::DebugStacks() const {
     std::cout << mStates.size() << " states:";
     for (auto &state : mStates) {
         std::cout << " " << *state;

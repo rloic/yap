@@ -1,88 +1,87 @@
 #include "States.h"
 
-#include <iostream>
 #include <cassert>
 
-#include "Console.h"
-#include "States.h"
 #include "Symbols/Expr.h"
 #include "Symbols/Val.h"
 
-#if 1
-#define WHEREAMI(NAME) if(debug) { std::cout << JAU << "transition@" << NAME << RESET << std::endl; }
-#else
-#define WHEREAMI(NAME) ;
-#endif
+#define WHEREAMI(NAME) if(debug) { std::cout << JAU << "Transition@" << (NAME) << RESET << std::endl; }
 
-bool State0::transition(Automata &automata, Symbol *symbol, bool debug) {
+static void unexpectedSymbol(const Symbol::Ptr &s) {
+    std::cout << GRAS RGE << "Unexpected symbol: " << RESET;
+    if (s) std::cout << JAU << *s << RESET;
+    std::cout << std::endl;
+}
+
+bool State0::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State0");
 
     switch (symbol->id()) {
         case IDs::VAL:
-            automata.shift(symbol, new State3{});
+            automata.Shift(symbol, State3::Create());
             break;
         case IDs::L_PAR:
-            automata.shift(symbol, new State2{});
+            automata.Shift(symbol, State2::Create());
             break;
         case IDs::E:
-            automata.shift(symbol, new State1{});
+            automata.Shift(symbol, State1::Create());
             break;
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-State *State0::GoTo() {
-    return new State1;
+State::Ptr State0::GoTo() {
+    return State1::Create();
 }
 
-bool State1::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State1::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State1");
 
     switch (symbol->id()) {
         case IDs::MULT:
-            automata.shift(symbol, new State5{});
+            automata.Shift(symbol, State5::Create());
             break;
         case IDs::PLUS:
-            automata.shift(symbol, new State4{});
+            automata.Shift(symbol, State4::Create());
             break;
         case IDs::Eof:
             if (debug) std::cout << GRAS VRT << "ACCEPT" << RESET << std::endl;
             return false;
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-bool State2::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State2::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State2");
 
     switch (symbol->id()) {
         case IDs::VAL:
-            automata.shift(symbol, new State3{});
+            automata.Shift(symbol, State3::Create());
             break;
         case IDs::L_PAR:
-            automata.shift(symbol, new State2{});
+            automata.Shift(symbol, State2::Create());
             break;
         case IDs::E:
-            automata.shift(symbol, new State6{});
+            automata.Shift(symbol, State6::Create());
             break;
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-State *State2::GoTo() {
-    return new State6;
+State::Ptr State2::GoTo() {
+    return State6::Create();
 }
 
-bool State3::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State3::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State3");
 
     switch (symbol->id()) {
@@ -90,128 +89,121 @@ bool State3::transition(Automata &automata, Symbol *symbol, bool debug) {
         case IDs::MULT:
         case IDs::R_PAR:
         case IDs::Eof: {
-            Symbol *s = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
-            assert(s->id() == IDs::VAL);
-            automata.reduce(1, new Expr{((Val *) s)->value()});
+            Symbol::Ptr s = automata.PopSymbol();
+            auto *val = dynamic_cast<Val *>(s.get());
+            assert(s->id() == IDs::VAL && val);
+
+            automata.Reduce(1, Expr::Create(val->value()));
             break;
         }
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
 
     return true;
 }
 
-bool State4::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State4::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State4");
 
     switch (symbol->id()) {
         case IDs::VAL:
-            automata.shift(symbol, new State3{});
+            automata.Shift(symbol, State3::Create());
             break;
         case IDs::L_PAR:
-            automata.shift(symbol, new State2{});
+            automata.Shift(symbol, State2::Create());
             break;
         case IDs::E:
-            automata.shift(symbol, new State7{});
+            automata.Shift(symbol, State7::Create());
             break;
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-State *State4::GoTo() {
-    return new State7;
+State::Ptr State4::GoTo() {
+    return State7::Create();
 }
 
-bool State5::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State5::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State5");
 
     switch (symbol->id()) {
         case IDs::VAL:
-            automata.shift(symbol, new State3{});
+            automata.Shift(symbol, State3::Create());
             break;
         case IDs::L_PAR:
-            automata.shift(symbol, new State2{});
+            automata.Shift(symbol, State2::Create());
             break;
         case IDs::E:
-            automata.shift(symbol, new State8{});
+            automata.Shift(symbol, State8::Create());
             break;
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-State *State5::GoTo() {
-    return new State8;
+State::Ptr State5::GoTo() {
+    return State8::Create();
 }
 
-bool State6::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State6::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State6");
 
     switch (symbol->id()) {
         case IDs::PLUS:
-            automata.shift(symbol, new State4{});
+            automata.Shift(symbol, State4::Create());
             break;
         case IDs::MULT:
-            automata.shift(symbol, new State5{});
+            automata.Shift(symbol, State5::Create());
             break;
         case IDs::R_PAR:
-            automata.shift(symbol, new State9{});
+            automata.Shift(symbol, State9::Create());
             break;
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-bool State7::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State7::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State7");
 
     switch (symbol->id()) {
         case IDs::PLUS:
         case IDs::R_PAR:
         case IDs::Eof: {
-            Symbol *s1 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
-            //Symbol *s2 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
-            Symbol *s3 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
+            Symbol::Ptr s1 = automata.PopSymbol();
+            automata.PopSymbol();
+            Symbol::Ptr s3 = automata.PopSymbol();
 
-//            print();
-//            s1->print();
-//            s2->print();
-//            s3->print();
+            Expr const *e1 = dynamic_cast<Expr *>(s1.get());
+            Expr const *e3 = dynamic_cast<Expr *>(s3.get());
+            assert(s1->id() == IDs::E && e1);
+            assert(s3->id() == IDs::E && e3);
 
-            assert(s1->id() == IDs::E);
-            assert(s3->id() == IDs::E);
+            auto result = Expr::Create(e1->value() + e3->value());
 
-            auto *e1 = dynamic_cast<Expr *>(s1);
-            auto *e3 = dynamic_cast<Expr *>(s3);
-            auto *result = new Expr(e1->value() + e3->value());
-
-            automata.reduce(3, result);
+            automata.Reduce(3, result);
             break;
         }
         case IDs::MULT:
-            automata.shift(symbol, new State5{});
+            automata.Shift(symbol, State5::Create());
             break;
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-bool State8::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State8::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State8");
 
     switch (symbol->id()) {
@@ -219,36 +211,28 @@ bool State8::transition(Automata &automata, Symbol *symbol, bool debug) {
         case IDs::MULT:
         case IDs::R_PAR:
         case IDs::Eof: {
-            Symbol *s1 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
-            //Symbol *s2 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
-            Symbol *s3 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
+            Symbol::Ptr s1 = automata.PopSymbol();
+            automata.PopSymbol();
+            Symbol::Ptr s3 = automata.PopSymbol();
 
-//            print();
-//            s1->print();
-//            s2->print();
-//            s3->print();
+            Expr const *e1 = dynamic_cast<Expr *>(s1.get());
+            Expr const *e3 = dynamic_cast<Expr *>(s3.get());
+            assert(s1->id() == IDs::E && e1);
+            assert(s3->id() == IDs::E && e3);
 
-            assert(s1->id() == IDs::E);
-            assert(s3->id() == IDs::E);
+            auto result = Expr::Create(e1->value() * e3->value());
 
-            auto *e1 = dynamic_cast<Expr *>(s1);
-            auto *e3 = dynamic_cast<Expr *>(s3);
-            auto *result = new Expr(e1->value() * e3->value());
-
-            automata.reduce(3, result);
+            automata.Reduce(3, result);
             break;
         }
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;
 }
 
-bool State9::transition(Automata &automata, Symbol *symbol, bool debug) {
+bool State9::Transition(Automata &automata, Symbol::Ptr symbol, bool debug) {
     WHEREAMI("State9");
 
     switch (symbol->id()) {
@@ -256,27 +240,18 @@ bool State9::transition(Automata &automata, Symbol *symbol, bool debug) {
         case IDs::MULT:
         case IDs::R_PAR:
         case IDs::Eof: {
-            //Symbol *s1 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
-            Symbol *s2 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
-            //Symbol *s3 = automata.mSymbols.back();
-            automata.mSymbols.pop_back();
+            automata.PopSymbol();
+            Symbol::Ptr s2 = automata.PopSymbol();
+            automata.PopSymbol();
 
-//            print();
-//            s1->print();
-//            s2->print();
-//            s3->print();
+            Expr const *e2 = dynamic_cast<Expr *>(s2.get());
+            assert(s2->id() == IDs::E && e2);
 
-            assert(s2->id() == IDs::E);
-
-            auto *result = dynamic_cast<Expr *>(s2);
-
-            automata.reduce(3, result);
+            automata.Reduce(3, Expr::Create(e2->value()));
             break;
         }
         default:
-            error(symbol);
+            unexpectedSymbol(symbol);
             return false;
     }
     return true;

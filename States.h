@@ -2,70 +2,45 @@
 
 #include "Automata.h"
 
-class State0 : public State {
-public:
-    State0() : State("S0") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
-
-    State *GoTo() override;
+#define CREATE_STATE(N)                                                                     \
+class State##N : public State {                                                             \
+public:                                                                                     \
+    static Ptr Create() {                                                                   \
+        return Ptr(new State##N);                                                           \
+    }                                                                                       \
+    bool Transition(Automata &automata, Symbol::Ptr symbol, bool debug) override;           \
+private:                                                                                    \
+    State##N() : State("S"#N) {};                                                          \
 };
 
-class State1 : public State {
-public:
-    State1() : State("S1") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
+#define CREATE_STATE_WITH_GOTO(N)                                                           \
+class State##N : public State {                                                             \
+public:                                                                                     \
+    static Ptr Create() {                                                                   \
+        return Ptr(new State##N);                                                           \
+    }                                                                                       \
+    bool Transition(Automata &automata, Symbol::Ptr symbol, bool debug) override;           \
+    State::Ptr GoTo() override;                                                             \
+private:                                                                                    \
+    State##N() : State("S"#N) {};                                                          \
 };
 
-class State2 : public State {
-public:
-    State2() : State("S2") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
+CREATE_STATE_WITH_GOTO(0)
 
-    State *GoTo() override;
-};
+CREATE_STATE(1)
 
-class State3 : public State {
-public:
-    State3() : State("S3") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
-};
+CREATE_STATE_WITH_GOTO(2)
 
-class State4 : public State {
-public:
-    State4() : State("S4") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
+CREATE_STATE(3)
 
-    State *GoTo() override;
-};
+CREATE_STATE_WITH_GOTO(4)
 
-class State5 : public State {
-public:
-    State5() : State("S5") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
+CREATE_STATE_WITH_GOTO(5)
 
-    State *GoTo() override;
-};
+CREATE_STATE(6)
 
-class State6 : public State {
-public:
-    State6() : State("S6") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
-};
+CREATE_STATE(7)
 
-class State7 : public State {
-public:
-    State7() : State("S7") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
-};
+CREATE_STATE(8)
 
-class State8 : public State {
-public:
-    State8() : State("S8") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
-};
-
-class State9 : public State {
-public:
-    State9() : State("S9") {};
-    bool transition(Automata &automata, Symbol *symbol, bool debug = false) override;
-};
+CREATE_STATE(9)

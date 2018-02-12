@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "Console.h"
-#include "HasPtrs.h"
+#include "HasPtr.h"
 
 enum class IDs {
     Ep,
@@ -20,54 +20,23 @@ enum class IDs {
     Eof
 };
 
-inline std::ostream &operator<<(std::ostream &os, const IDs &id) {
-    switch (id) {
-        case IDs::Ep:
-            os << "E'";
-            break;
-        case IDs::E:
-            os << "E";
-            break;
-        case IDs::L_PAR:
-            os << "(";
-            break;
-        case IDs::R_PAR:
-            os << ")";
-            break;
-        case IDs::PLUS:
-            os << "+";
-            break;
-        case IDs::MULT:
-            os << "*";
-            break;
-        case IDs::VAL:
-            os << "VAL";
-            break;
-        case IDs::Eof:
-            os << "$";
-            break;
-    }
-    return os;
-}
-
-class Symbol {
+class Symbol : public HasPtr<Symbol> {
 public:
-    explicit Symbol(IDs mID) : mID{mID} {}
+    static Ptr Clone(const Symbol::Ptr &symbol);
 
     virtual ~Symbol() = default;
 
-    friend std::ostream &operator<<(std::ostream &os, const Symbol &symbol) {
-        symbol.print(os);
-        return os;
-    }
+    IDs id() const;
 
-    IDs id() const { return mID; }
+    friend std::ostream &operator<<(std::ostream &os, const Symbol &symbol);
 
 protected:
-    virtual void print(std::ostream &os) const {
-        os << mID;
-    }
+    explicit Symbol(IDs mID);
+
+    virtual void print(std::ostream &os) const;
 
 private:
     IDs mID;
 };
+
+std::ostream &operator<<(std::ostream &os, const IDs &id);

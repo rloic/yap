@@ -4,11 +4,15 @@
 
 class Val : public Symbol {
 public:
-    Val(long long value) : Symbol(IDs::VAL), mValue{value} {}
+    static Ptr Create(long long value) {
+        return Ptr(new Val(value));
+    }
 
     long long value() const { return mValue; }
 
 protected:
+    explicit Val(long long value) : Symbol(IDs::VAL), mValue{value} {}
+
     virtual void print(std::ostream &os) const {
         os << "VAL(" << mValue << ")";
     }

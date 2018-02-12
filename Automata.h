@@ -11,25 +11,23 @@ class Symbol;
 
 class Automata {
 public:
-    explicit Automata(Lexer lexer, bool debug = false) :
-            mLexer{std::move(lexer)},
-            mDebug{debug}
-    {}
+    explicit Automata(Lexer lexer, bool debug = false);
 
     virtual ~Automata() = default;
 
-    void read();
+    void Read();
 
-    void shift(Symbol *symbol, State *state);
+    void Shift(Symbol::Ptr symbol, State::Ptr state);
 
-    void reduce(int n, Symbol *symbol);
+    void Reduce(int n, Symbol::Ptr symbol);
 
-    void debug() const;
+    Symbol::Ptr PopSymbol();
 
-//private: // TODO
-public:
-    std::vector<Symbol*> mSymbols;
-    std::vector<State*> mStates;
+    void DebugStacks() const;
+
+private:
+    std::vector<Symbol::Ptr> mSymbols;
+    std::vector<State::Ptr> mStates;
     Lexer mLexer;
     bool mDebug;
 };
