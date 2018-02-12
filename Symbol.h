@@ -56,20 +56,17 @@ public:
 
     virtual ~Symbol() = default;
 
-    virtual void print() const {
-        std::cout << "Symbol: " << std::setw(8) << CYN << mID << RESET << std::endl;
-    }
-
-    virtual void tiny_print(std::ostream &os) const {
-        os << mID;
-    }
-
     friend std::ostream &operator<<(std::ostream &os, const Symbol &symbol) {
-        symbol.tiny_print(os);
+        symbol.print(os);
         return os;
     }
 
     IDs id() const { return mID; }
+
+protected:
+    virtual void print(std::ostream &os) const {
+        os << mID;
+    }
 
 private:
     IDs mID;

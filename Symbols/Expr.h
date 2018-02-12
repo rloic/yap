@@ -4,18 +4,15 @@
 
 class Expr : public Symbol {
 public:
-    Expr(int value) : Symbol(IDs::E), mValue{value} {}
+    Expr(long long value) : Symbol(IDs::E), mValue{value} {}
 
-    int value() const { return mValue; }
+    long long value() const { return mValue; }
 
-    virtual void print() const {
-        std::cout << "Symbol: " << std::setw(8) << CYN << "EXPR(" << mValue << ")" << RESET << std::endl;
-    }
-
-    virtual void tiny_print(std::ostream &os) const {
+protected:
+    virtual void print(std::ostream &os) const {
         os << "EXPR(" << mValue << ")";
     }
 
 private:
-    int mValue;
+    long long mValue;
 };

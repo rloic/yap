@@ -29,6 +29,7 @@ bool State0::transition(Automata &automata, Symbol *symbol, bool debug) {
             break;
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -48,10 +49,11 @@ bool State1::transition(Automata &automata, Symbol *symbol, bool debug) {
             automata.shift(symbol, new State4{});
             break;
         case IDs::Eof:
-            std::cout << GRAS VRT << "ACCEPT" << RESET << std::endl;
+            if (debug) std::cout << GRAS VRT << "ACCEPT" << RESET << std::endl;
             return false;
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -71,6 +73,7 @@ bool State2::transition(Automata &automata, Symbol *symbol, bool debug) {
             break;
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -95,6 +98,7 @@ bool State3::transition(Automata &automata, Symbol *symbol, bool debug) {
         }
         default:
             error(symbol);
+            return false;
     }
 
     return true;
@@ -115,6 +119,7 @@ bool State4::transition(Automata &automata, Symbol *symbol, bool debug) {
             break;
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -138,6 +143,7 @@ bool State5::transition(Automata &automata, Symbol *symbol, bool debug) {
             break;
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -161,6 +167,7 @@ bool State6::transition(Automata &automata, Symbol *symbol, bool debug) {
             break;
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -199,6 +206,7 @@ bool State7::transition(Automata &automata, Symbol *symbol, bool debug) {
             break;
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -235,6 +243,7 @@ bool State8::transition(Automata &automata, Symbol *symbol, bool debug) {
         }
         default:
             error(symbol);
+            return false;
     }
     return true;
 }
@@ -268,6 +277,7 @@ bool State9::transition(Automata &automata, Symbol *symbol, bool debug) {
         }
         default:
             error(symbol);
+            return false;
     }
     return true;
 }

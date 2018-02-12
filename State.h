@@ -19,10 +19,6 @@ public:
 
     virtual ~State() = default;
 
-    void print() const {
-        std::cout << "State: " << std::setw(10) << BLE << mName << RESET << std::endl;
-    }
-
     friend std::ostream &operator<<(std::ostream &os, const State &state) {
         os << MAG << state.mName << RESET;
         return os;
@@ -30,7 +26,8 @@ public:
 
     void error(Symbol *s) {
         std::cout << GRAS RGE << "Unexpected symbol: " << RESET;
-        s->print();
+        if (s) std::cout << JAU << *s << RESET;
+        std::cout << std::endl;
     }
 
     virtual bool transition(Automata &automata, Symbol *symbol, bool debug = false) = 0;

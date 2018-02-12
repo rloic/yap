@@ -9,13 +9,13 @@ public:
 
     virtual ~Lexer() = default;
 
-    Symbol* getnext() const;
+    Symbol* getnext();
 
     void movenext();
 
 private:
     std::string mInput;
-    std::string::iterator mCursor;
+    size_t mCursor;
     std::map<char, Symbol*> mSimpleDecals;
 
     mutable size_t mNextSymbolSize;
