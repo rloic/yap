@@ -1,21 +1,20 @@
 #include "Automata.h"
 //#include "States/State0.h"
 #include "States.h"
+#include "Symbols/Expr.h"
 
 void Automata::read() {
-
     mStates.emplace_back(new State0{});
-
     Symbol *current = nullptr;
-    while (current = mLexer.getnext()) {//}, current->id() != IDs::Eof) {
-        debug();
-
-//        mLexer.movenext();
-        current->print();
-
-        if (!mStates.back()->transition(*this, current)) break;
+    while ((current = mLexer.getnext())) {
+        if(mDebug) {
+            debug();
+            current->print();
+        }
+        if (!mStates.back()->transition(*this, current, false)) break;
     }
-    debug();
+    std::cout << "Result: " << dynamic_cast<Expr*>(mSymbols.back())->value() << std::endl;
+    if(mDebug) debug();
 }
 
 void Automata::shift(Symbol *symbol, State *state) {

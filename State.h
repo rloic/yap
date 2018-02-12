@@ -33,7 +33,7 @@ public:
         s->print();
     }
 
-    virtual bool transition(Automata &automata, Symbol *symbol) = 0;
+    virtual bool transition(Automata &automata, Symbol *symbol, bool debug = false) = 0;
 
     virtual State* GoTo() {
         assert(false && "Can't be here.");

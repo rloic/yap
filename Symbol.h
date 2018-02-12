@@ -23,22 +23,31 @@ enum class IDs {
 inline std::ostream &operator<<(std::ostream &os, const IDs &id) {
     switch (id) {
         case IDs::Ep:
-            return os << "E'";
+            os << "E'";
+            break;
         case IDs::E:
-            return os << "E";
+            os << "E";
+            break;
         case IDs::L_PAR:
-            return os << "(";
+            os << "(";
+            break;
         case IDs::R_PAR:
-            return os << ")";
+            os << ")";
+            break;
         case IDs::PLUS:
-            return os << "+";
+            os << "+";
+            break;
         case IDs::MULT:
-            return os << "*";
+            os << "*";
+            break;
         case IDs::VAL:
-            return os << "VAL";
+            os << "VAL";
+            break;
         case IDs::Eof:
-            return os << "$";
+            os << "$";
+            break;
     }
+    return os;
 }
 
 class Symbol {

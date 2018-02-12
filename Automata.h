@@ -11,7 +11,10 @@ class Symbol;
 
 class Automata {
 public:
-    explicit Automata(Lexer lexer) : mLexer{std::move(lexer)} {}
+    explicit Automata(Lexer lexer, bool debug = false) :
+            mLexer{std::move(lexer)},
+            mDebug{debug}
+    {}
 
     virtual ~Automata() = default;
 
@@ -28,4 +31,5 @@ public:
     std::vector<Symbol*> mSymbols;
     std::vector<State*> mStates;
     Lexer mLexer;
+    bool mDebug;
 };

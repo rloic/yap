@@ -9,12 +9,12 @@
 #include "Symbols/Val.h"
 
 #if 1
-#define WHEREAMI(NAME) std::cout << JAU << "transition@" << NAME << RESET << std::endl
+#define WHEREAMI(NAME) if(debug) { std::cout << JAU << "transition@" << NAME << RESET << std::endl; }
 #else
 #define WHEREAMI(NAME) ;
 #endif
 
-bool State0::transition(Automata &automata, Symbol *symbol)  {
+bool State0::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State0");
 
     switch (symbol->id()) {
@@ -26,6 +26,7 @@ bool State0::transition(Automata &automata, Symbol *symbol)  {
             break;
         case IDs::E:
             automata.shift(symbol, new State1{});
+            break;
         default:
             error(symbol);
     }
@@ -36,7 +37,7 @@ State *State0::GoTo() {
     return new State1;
 }
 
-bool State1::transition(Automata &automata, Symbol *symbol)  {
+bool State1::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State1");
 
     switch (symbol->id()) {
@@ -55,7 +56,7 @@ bool State1::transition(Automata &automata, Symbol *symbol)  {
     return true;
 }
 
-bool State2::transition(Automata &automata, Symbol *symbol)  {
+bool State2::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State2");
 
     switch (symbol->id()) {
@@ -67,6 +68,7 @@ bool State2::transition(Automata &automata, Symbol *symbol)  {
             break;
         case IDs::E:
             automata.shift(symbol, new State6{});
+            break;
         default:
             error(symbol);
     }
@@ -77,7 +79,7 @@ State *State2::GoTo() {
     return new State6;
 }
 
-bool State3::transition(Automata &automata, Symbol *symbol)  {
+bool State3::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State3");
 
     switch (symbol->id()) {
@@ -98,7 +100,7 @@ bool State3::transition(Automata &automata, Symbol *symbol)  {
     return true;
 }
 
-bool State4::transition(Automata &automata, Symbol *symbol)  {
+bool State4::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State4");
 
     switch (symbol->id()) {
@@ -110,6 +112,7 @@ bool State4::transition(Automata &automata, Symbol *symbol)  {
             break;
         case IDs::E:
             automata.shift(symbol, new State7{});
+            break;
         default:
             error(symbol);
     }
@@ -120,7 +123,7 @@ State *State4::GoTo() {
     return new State7;
 }
 
-bool State5::transition(Automata &automata, Symbol *symbol)  {
+bool State5::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State5");
 
     switch (symbol->id()) {
@@ -132,6 +135,7 @@ bool State5::transition(Automata &automata, Symbol *symbol)  {
             break;
         case IDs::E:
             automata.shift(symbol, new State8{});
+            break;
         default:
             error(symbol);
     }
@@ -142,7 +146,7 @@ State *State5::GoTo() {
     return new State8;
 }
 
-bool State6::transition(Automata &automata, Symbol *symbol)  {
+bool State6::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State6");
 
     switch (symbol->id()) {
@@ -161,7 +165,7 @@ bool State6::transition(Automata &automata, Symbol *symbol)  {
     return true;
 }
 
-bool State7::transition(Automata &automata, Symbol *symbol)  {
+bool State7::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State7");
 
     switch (symbol->id()) {
@@ -170,15 +174,15 @@ bool State7::transition(Automata &automata, Symbol *symbol)  {
         case IDs::Eof: {
             Symbol *s1 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
-            Symbol *s2 = automata.mSymbols.back();
+            //Symbol *s2 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
             Symbol *s3 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
 
-            print();
-            s1->print();
-            s2->print();
-            s3->print();
+//            print();
+//            s1->print();
+//            s2->print();
+//            s3->print();
 
             assert(s1->id() == IDs::E);
             assert(s3->id() == IDs::E);
@@ -192,12 +196,14 @@ bool State7::transition(Automata &automata, Symbol *symbol)  {
         }
         case IDs::MULT:
             automata.shift(symbol, new State5{});
+            break;
         default:
             error(symbol);
     }
+    return true;
 }
 
-bool State8::transition(Automata &automata, Symbol *symbol)  {
+bool State8::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State8");
 
     switch (symbol->id()) {
@@ -207,15 +213,15 @@ bool State8::transition(Automata &automata, Symbol *symbol)  {
         case IDs::Eof: {
             Symbol *s1 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
-            Symbol *s2 = automata.mSymbols.back();
+            //Symbol *s2 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
             Symbol *s3 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
 
-            print();
-            s1->print();
-            s2->print();
-            s3->print();
+//            print();
+//            s1->print();
+//            s2->print();
+//            s3->print();
 
             assert(s1->id() == IDs::E);
             assert(s3->id() == IDs::E);
@@ -230,9 +236,10 @@ bool State8::transition(Automata &automata, Symbol *symbol)  {
         default:
             error(symbol);
     }
+    return true;
 }
 
-bool State9::transition(Automata &automata, Symbol *symbol)  {
+bool State9::transition(Automata &automata, Symbol *symbol, bool debug) {
     WHEREAMI("State9");
 
     switch (symbol->id()) {
@@ -240,17 +247,17 @@ bool State9::transition(Automata &automata, Symbol *symbol)  {
         case IDs::MULT:
         case IDs::R_PAR:
         case IDs::Eof: {
-            Symbol *s1 = automata.mSymbols.back();
+            //Symbol *s1 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
             Symbol *s2 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
-            Symbol *s3 = automata.mSymbols.back();
+            //Symbol *s3 = automata.mSymbols.back();
             automata.mSymbols.pop_back();
 
-            print();
-            s1->print();
-            s2->print();
-            s3->print();
+//            print();
+//            s1->print();
+//            s2->print();
+//            s3->print();
 
             assert(s2->id() == IDs::E);
 
@@ -262,4 +269,5 @@ bool State9::transition(Automata &automata, Symbol *symbol)  {
         default:
             error(symbol);
     }
+    return true;
 }
