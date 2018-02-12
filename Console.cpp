@@ -8,7 +8,6 @@
 
 //------------------------------------------------------ Include personnel
 #include "Console.h"
-#include "OutilsDeDebug.h"
 
 //------------------------------------------------------------- Constantes
 const unsigned int NOMBRE_SAUTS_VIDER_CONSOLE = 150U;
@@ -16,8 +15,6 @@ const unsigned int NOMBRE_SAUTS_VIDER_CONSOLE = 150U;
 //----------------------------------------------------- Méthodes publiques
 void Console::Vider()
 {
-    IF_MAP_DECLARER_DEBUT;
-
 #if !defined(MAP)
     for (unsigned int i = 0; i < NOMBRE_SAUTS_VIDER_CONSOLE; ++i)
     {
@@ -30,14 +27,10 @@ void Console::Vider()
 #else
     std::cout << std::endl << "-----------" << std::endl;
 #endif
-
-    IF_MAP_DECLARER_FIN;
 } // Fin de Vider()
 
 void Console::DemanderLigne(std::istream &flux, std::string &ligne)
 {
-    IF_MAP_DECLARER_DEBUT_EXTRA;
-
     bool valide;
     do
     {
@@ -71,14 +64,10 @@ void Console::DemanderLigne(std::istream &flux, std::string &ligne)
         }
 
     } while (!valide);
-
-    IF_MAP_DECLARER_FIN_EXTRA;
 } // Fin de DemanderLigne()
 
 unsigned int Console::SaisieStrictementPositif()
 {
-    IF_MAP_DECLARER_DEBUT_EXTRA;
-
     int entree;
     do
     {
@@ -90,6 +79,5 @@ unsigned int Console::SaisieStrictementPositif()
 
     } while(entree <= 0);
 
-    IF_MAP_DECLARER_FIN_EXTRA;
     return static_cast<unsigned int>(entree);
 } // Fin de SaisieStrictementPositif()

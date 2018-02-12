@@ -4,24 +4,64 @@
 #include <iostream>
 #include <iomanip>
 #include <memory>
+#include <vector>
 
 #include "Console.h"
 #include "HasPtrs.h"
 
-using id_t = uint64_t;
+enum class IDs {
+    Ep,
+    E,
+    L_PAR,
+    R_PAR,
+    PLUS,
+    MULT,
+    VAL,
+    Eof
+};
 
-class Symbol : HasPtrs<Symbol> {
+inline std::ostream &operator<<(std::ostream &os, const IDs &id) {
+    switch (id) {
+        case IDs::Ep:
+            return os << "E'";
+        case IDs::E:
+            return os << "E";
+        case IDs::L_PAR:
+            return os << "(";
+        case IDs::R_PAR:
+            return os << ")";
+        case IDs::PLUS:
+            return os << "+";
+        case IDs::MULT:
+            return os << "*";
+        case IDs::VAL:
+            return os << "VAL";
+        case IDs::Eof:
+            return os << "$";
+    }
+}
+
+class Symbol {
 public:
-    explicit Symbol(id_t mID) : mID{mID} {}
+    explicit Symbol(IDs mID) : mID{mID} {}
 
     virtual ~Symbol() = default;
 
-    void print() const {
+    virtual void print() const {
         std::cout << "Symbol: " << std::setw(8) << CYN << mID << RESET << std::endl;
     }
 
-    explicit operator int() const { return mID; }
+    virtual void tiny_print(std::ostream &os) const {
+        os << mID;
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const Symbol &symbol) {
+        symbol.tiny_print(os);
+        return os;
+    }
+
+    IDs id() const { return mID; }
 
 private:
-    id_t mID;
+    IDs mID;
 };
