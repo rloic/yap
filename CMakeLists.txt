@@ -14,12 +14,7 @@ add_executable(lalr_alamain
         Automata.h Automata.cpp
         Console.h
         HasPtr.h
-        Symbols/Expr.h
-        Symbols/LPar.h
-        Symbols/RPar.h
-        Symbols/Plus.h
-        Symbols/Mult.h
         Symbols/Val.h
-        Symbols/Eof.h
+        Symbols/Expr.h
         States.cpp States.h
         Symbol.cpp State.cpp Symbols/TerminalSymbols.h)
