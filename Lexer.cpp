@@ -26,7 +26,7 @@ inline bool isInt(char c) {
     return c >= '0' && c <= '9';
 }
 
-Symbol* Lexer::getnext() const {
+Symbol *Lexer::getnext() const {
     char nextChar = *mCursor;
 
     auto found = mSimpleDecals.find(nextChar);
@@ -42,14 +42,18 @@ Symbol* Lexer::getnext() const {
         value += nextChar - '0';
         nextChar = *(++cursor);
     }
-
     mNextSymbolSize = static_cast<size_t>(std::distance(mCursor, cursor));
+    if (mNextSymbolSize == 0) {
+        std::cout << GRAS JAU << "[Warn] " << RESET << JAU << "unexpected symbol: " << RESET << *cursor << std::endl;
+    }
     return new Val{value};
 }
 
 void Lexer::movenext() {
     if (mNextSymbolSize == 0U) {
+        ++mCursor;
         getnext();
+        movenext();
     }
     mCursor += mNextSymbolSize;
     mNextSymbolSize = 0U;
