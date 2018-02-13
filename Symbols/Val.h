@@ -11,7 +11,7 @@ public:
     long long value() const { return mValue; }
 
 protected:
-    explicit Val(long long value) : Symbol(IDs::VAL), mValue{value} {}
+    explicit Val(long long value) : Symbol(Id::VAL), mValue{value} {}
 
     virtual void print(std::ostream &os) const {
         os << "VAL(" << mValue << ")";

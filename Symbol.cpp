@@ -1,12 +1,12 @@
 #include "Symbol.h"
 
-Symbol::Symbol(IDs mID) : mID{mID} {}
+Symbol::Symbol(Id mID) : mID{mID} {}
 
 Symbol::Ptr Symbol::Clone(const Symbol::Ptr &symbol) {
     return std::make_shared<Symbol>(Symbol(*symbol));
 }
 
-IDs Symbol::id() const { return mID; }
+Symbol::Id Symbol::id() const { return mID; }
 
 void Symbol::print(std::ostream &os) const {
     os << mID;
@@ -17,30 +17,30 @@ std::ostream &operator<<(std::ostream &os, const Symbol &symbol) {
     return os;
 }
 
-std::ostream &operator<<(std::ostream &os, const IDs &id) {
+std::ostream &operator<<(std::ostream &os, const Symbol::Id &id) {
     switch (id) {
-        case IDs::Ep:
+        case Symbol::Id::Ep:
             os << "E'";
             break;
-        case IDs::E:
+        case Symbol::Id::E:
             os << "E";
             break;
-        case IDs::L_PAR:
+        case Symbol::Id::L_PAR:
             os << "(";
             break;
-        case IDs::R_PAR:
+        case Symbol::Id::R_PAR:
             os << ")";
             break;
-        case IDs::PLUS:
+        case Symbol::Id::PLUS:
             os << "+";
             break;
-        case IDs::MULT:
+        case Symbol::Id::MULT:
             os << "*";
             break;
-        case IDs::VAL:
+        case Symbol::Id::VAL:
             os << "VAL";
             break;
-        case IDs::Eof:
+        case Symbol::Id::Eof:
             os << "$";
             break;
     }

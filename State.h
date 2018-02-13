@@ -11,19 +11,15 @@
 
 class Automata;
 
-class State : public HasPtr<State> {
-public:
-    virtual ~State() = default;
-
-    virtual bool Transition(Automata &automata, Symbol::Ptr symbol, bool debug) = 0;
-
-    virtual State::Ptr GoTo();
-
-    friend std::ostream &operator<<(std::ostream &os, const State &state);
-
-protected:
-    explicit State(std::string &&name);
-
-private:
-    std::string mName;
+enum class State {
+    State0,
+    State1,
+    State2,
+    State3,
+    State4,
+    State5,
+    State6,
+    State7,
+    State8,
+    State9
 };

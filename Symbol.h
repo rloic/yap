@@ -9,34 +9,35 @@
 #include "Console.h"
 #include "HasPtr.h"
 
-enum class IDs {
-    Ep,
-    E,
-    L_PAR,
-    R_PAR,
-    PLUS,
-    MULT,
-    VAL,
-    Eof
-};
-
 class Symbol : public HasPtr<Symbol> {
+public:
+    enum class Id {
+        Ep,
+        E,
+        L_PAR,
+        R_PAR,
+        PLUS,
+        MULT,
+        VAL,
+        Eof
+    };
+
 public:
     static Ptr Clone(const Symbol::Ptr &symbol);
 
     virtual ~Symbol() = default;
 
-    IDs id() const;
+    Id id() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Symbol &symbol);
 
 protected:
-    explicit Symbol(IDs mID);
+    explicit Symbol(Id mID);
 
     virtual void print(std::ostream &os) const;
 
 private:
-    IDs mID;
+    Id mID;
 };
 
-std::ostream &operator<<(std::ostream &os, const IDs &id);
+std::ostream &operator<<(std::ostream &os, const Symbol::Id &id);

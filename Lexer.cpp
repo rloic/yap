@@ -5,7 +5,8 @@
 
 Lexer::Lexer(std::string &&input)
         : mInput{std::move(input)},
-          mNextSymbolSize{} {
+          mCursor{0U},
+          mNextSymbolSize{0U}{
 
     mSimpleTokens['+'] = Plus::Create();
     mSimpleTokens['*'] = Mult::Create();
