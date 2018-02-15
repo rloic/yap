@@ -1,5 +1,5 @@
 #include "Automata.h"
-#include "Symbols/Expr.h"
+#include "Symbols/NonTerminalSymbols.h"
 #include "Transitions/Shifts.h"
 #include "Transitions/Reductions.h"
 
@@ -72,7 +72,7 @@ void Automata::Read() {
         std::cout << GRAS RGE << "No result due to Error." << RESET << std::endl;
     } else {
         std::cout << GRAS VRT << "Result: " << RESET
-                  << VRT << dynamic_cast<Expr *>(mSymbolsStack.back().get())->value() << RESET
+                  << VRT << dynamic_cast<Expr *>(mSymbolsStack.back().get())->GetValue() << RESET
                   << std::endl;
     }
 }

@@ -1,12 +1,13 @@
 #include "Lexer.h"
 
 #include "Symbols/TerminalSymbols.h"
-#include "Symbols/Val.h"
+#include "Symbols/NonTerminalSymbols.h"
 
 Lexer::Lexer(std::string &&input)
         : mInput{std::move(input)},
           mCursor{0U},
-          mNextSymbolSize{0U}{
+          mCurrentSymbolSize{0U},
+          mHasNextSymbol{true} {
 
     mSimpleTokens['+'] = Plus::Create();
     mSimpleTokens['*'] = Mult::Create();
@@ -22,7 +23,11 @@ static inline bool isInt(char c) {
 Symbol::Ptr Lexer::GetNext() {
     auto found = mSimpleTokens.find(mInput[mCursor]);
     if (found != mSimpleTokens.end()) {
-        mNextSymbolSize = 1U;
+        if (found->second->id() == Symbol::Id::Eof) {
+            mHasNextSymbol = false;
+        } else {
+            mCurrentSymbolSize = 1U;
+        }
         return Symbol::Clone(found->second);
     } else {
         int value = 0;
@@ -40,15 +45,15 @@ Symbol::Ptr Lexer::GetNext() {
             }
             ++cursor;
         }
-        mNextSymbolSize = cursor - mCursor;
+        mCurrentSymbolSize = cursor - mCursor;
         return Val::Create(value);
     }
 }
 
 void Lexer::MoveNext() {
-    if (mNextSymbolSize == 0U) {
+    if (mCurrentSymbolSize == 0U && mHasNextSymbol) {
         GetNext();
     }
-    mCursor += mNextSymbolSize;
-    mNextSymbolSize = 0U;
+    mCursor += mCurrentSymbolSize;
+    mCurrentSymbolSize = 0U;
 }

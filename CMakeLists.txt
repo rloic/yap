@@ -3,8 +3,11 @@ project(lalr_alamain)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CXX_STRICT_WARNINGS "-fno-elide-constructors -pedantic-errors -ansi -Wextra -Wall -Winit-self -Wold-style-cast -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Werror ${CXX_STRICT_WARNINGS}")
+set(CXX_STRICT_WARNINGS "-fno-elide-constructors -pedantic-errors -ansi -Wextra -Wall -Werror -Winit-self -Wold-style-cast -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_STRICT_WARNINGS}")
+
+# Clang
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Qunused-arguments")
 
 add_executable(lalr_alamain
         main.cpp
@@ -15,11 +18,11 @@ add_executable(lalr_alamain
         HasPtr.h
         Symbol.h Symbol.cpp
         Symbols/TerminalSymbols.h
-        Symbols/Val.h
-        Symbols/Expr.h
+        Symbols/NonTerminalSymbols.h
+        Symbols/Value.h
         Transitions/Transition.h
         Transitions/Shift.h
         Transitions/Reduction.h
         Transitions/Reductions.h Transitions/Reductions.cpp
         Transitions/Shifts.h Transitions/Shifts.cpp
-        )
+        Symbols/NonTerminalSymbols.h)

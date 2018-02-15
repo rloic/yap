@@ -17,5 +17,6 @@ private:
     std::string mInput;
     size_t mCursor;
     std::map<char, Symbol::Ptr> mSimpleTokens;
-    size_t mNextSymbolSize;
+    size_t mCurrentSymbolSize;
+    bool mHasNextSymbol;
 };
