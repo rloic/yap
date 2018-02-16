@@ -10,7 +10,7 @@ class Transition {
 public:
     using TransitionFunction_t = std::function<bool(Automata &, Symbol::Ptr const &)>;
 
-    explicit Transition(TransitionFunction_t &&function): mFunction{std::move(function)} {}
+    explicit Transition(TransitionFunction_t &&function) noexcept : mFunction{std::move(function)} {}
     Transition(Transition const&) = delete;
     Transition& operator=(Transition const &) = delete;
 
@@ -20,5 +20,5 @@ public:
     }
 
 protected:
-    TransitionFunction_t mFunction;
+    TransitionFunction_t mFunction{};
 };
