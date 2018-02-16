@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Value.h"
+#include "ValuedSymbol.h"
 
 using IntegerType = long long;
 
-using Expr = Value<IntegerType, 'E', Symbol::Id::E>;
-using Val = Value<IntegerType, 'V', Symbol::Id::VAL>;
+using Expr = ValuedSymbol<IntegerType, 'E', Symbol::Id::E>;
+using Val = ValuedSymbol<IntegerType, 'V', Symbol::Id::VAL>;

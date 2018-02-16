@@ -5,16 +5,16 @@
 #include "../Symbol.h"
 
 template<typename Type, char Name, Symbol::Id const ValueId>
-class Value : public Symbol {
+class ValuedSymbol : public Symbol {
 public:
     static Ptr Create(Type value) {
-        return Ptr(new Value(value));
+        return Ptr(new ValuedSymbol(value));
     }
 
     Type GetValue() const { return mValue; }
 
 protected:
-    explicit Value(Type value) : Symbol(ValueId), mValue{value} {}
+    explicit ValuedSymbol(Type value) : Symbol(ValueId), mValue{value} {}
 
     void print(std::ostream &os) const override {
         os << Name << "(" << mValue << ")";

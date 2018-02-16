@@ -17,12 +17,13 @@ add_executable(lalr_alamain
         Console.h
         HasPtr.h
         Symbol.h Symbol.cpp
+        Symbols/TerminalSymbol.h
         Symbols/TerminalSymbols.h
         Symbols/NonTerminalSymbols.h
-        Symbols/Value.h
+        Symbols/ValuedSymbol.h
         Transitions/Transition.h
         Transitions/Shift.h
         Transitions/Reduction.h
         Transitions/Reductions.h Transitions/Reductions.cpp
         Transitions/Shifts.h Transitions/Shifts.cpp
-        Symbols/NonTerminalSymbols.h)
+        )
