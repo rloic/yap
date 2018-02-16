@@ -2,8 +2,7 @@
 
 #include "Common.h"
 #include "Symbols/NonTerminalSymbols.h"
-#include "Transitions/Shifts.h"
-#include "Transitions/Reductions.h"
+#include "Transitions/Transitions.h"
 
 Automata::Automata(Lexer lexer, bool debug)
         : mLexer{lexer},

@@ -1,4 +1,4 @@
-#include "Reductions.h"
+#include "Transitions.h"
 
 #include "../Common.h"
 #include "../Symbols/NonTerminalSymbols.h"
