@@ -17,7 +17,7 @@ Lexer::Lexer(std::string &&input)
 }
 
 static inline bool isInt(char c) {
-    return c >= '0' && c <= '9';
+    return '0' <= c && c <= '9';
 }
 
 Symbol::Ptr Lexer::GetNext() {
