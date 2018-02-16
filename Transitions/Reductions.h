@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Reduction.h"
+#include "Transition.h"
 
 extern const Reduction r2;
 extern const Reduction r3;

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
 #include <iostream>
 #include <vector>
 #include <array>
+#include <map>
 
 #include "Lexer.h"
 #include "State.h"

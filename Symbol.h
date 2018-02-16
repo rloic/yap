@@ -1,12 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <iostream>
-#include <iomanip>
-#include <memory>
-#include <vector>
-
-#include "Console.h"
 #include "HasPtr.h"
 
 class Symbol : public HasPtr<Symbol> {

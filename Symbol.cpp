@@ -1,6 +1,6 @@
 #include "Symbol.h"
 
-#include <stdexcept>
+#include "Common.h"
 
 Symbol::Symbol(Id mID) : mID{mID} {}
 

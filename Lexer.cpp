@@ -1,5 +1,6 @@
 #include "Lexer.h"
 
+#include "Common.h"
 #include "Symbols/TerminalSymbols.h"
 #include "Symbols/NonTerminalSymbols.h"
 

@@ -4,8 +4,6 @@
 
 #include "../Automata.h"
 
-#define unused __attribute__((unused))
-
 class Transition {
 public:
     using TransitionFunction_t = std::function<bool(Automata &, Symbol::Ptr const &)>;
@@ -22,3 +20,6 @@ public:
 protected:
     TransitionFunction_t mFunction{};
 };
+
+using Reduction = Transition;
+using Shift = Transition;

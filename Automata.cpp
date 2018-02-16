@@ -1,4 +1,6 @@
 #include "Automata.h"
+
+#include "Common.h"
 #include "Symbols/NonTerminalSymbols.h"
 #include "Transitions/Shifts.h"
 #include "Transitions/Reductions.h"
@@ -63,11 +65,9 @@ void Automata::Read() {
         current = mLexer.GetNext();
         if (mDebug) {
             DebugStacks();
-            std::
-            cout << "Symbol: " << *current << std::endl;
+            std::cout << "Symbol: " << *current << std::endl;
         }
     } while (executeTransition(current));
-    if (mDebug) DebugStacks();
 
     if (mSymbolsStack.empty() || !dynamic_cast<Expr *>(mSymbolsStack.back().get())) {
         std::cout << GRAS RGE << "No result due to Error." << RESET << std::endl;
@@ -104,7 +104,7 @@ Symbol::Ptr Automata::PopSymbol() {
 void Automata::DebugStacks() const {
     std::cout << mStatesStack.size() << " states:";
     for (auto &state : mStatesStack) {
-        std::cout << " " << State::Names[state];
+        std::cout << " " << state;
     }
     std::cout << std::endl;
     std::cout << mSymbolsStack.size() << " symbols:";

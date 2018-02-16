@@ -1,7 +1,5 @@
 #pragma once
 
-#include <ostream>
-
 #include "../Symbol.h"
 
 template<typename Type, char Name, Symbol::Id const ValueId>

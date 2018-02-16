@@ -1,5 +1,6 @@
 #include "Shifts.h"
-#include "Shift.h"
+
+#include "../Common.h"
 
 const Shift accept(
         [](unused Automata &automata, unused Symbol::Ptr const &symbol) -> bool {

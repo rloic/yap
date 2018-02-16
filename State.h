@@ -1,15 +1,6 @@
 #pragma once
 
-#include <cassert>
-#include <string>
 #include <iostream>
-#include <iomanip>
-#include <utility>
-
-#include "Symbol.h"
-#include "Console.h"
-
-class Automata;
 
 namespace State {
     enum Id : std::size_t {
@@ -43,4 +34,9 @@ namespace State {
     };
 
 #undef TRIVIAL_NAME
+
+    inline std::ostream &operator<<(std::ostream &os, const Id &state) {
+        os << Names[state];
+        return os;
+    }
 }

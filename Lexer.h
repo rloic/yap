@@ -1,7 +1,8 @@
 #pragma once
 
-#include <map>
 #include "Symbol.h"
+
+#include <map>
 
 class Lexer {
 public:

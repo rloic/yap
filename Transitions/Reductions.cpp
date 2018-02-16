@@ -1,5 +1,6 @@
 #include "Reductions.h"
-#include "Reduction.h"
+
+#include "../Common.h"
 #include "../Symbols/NonTerminalSymbols.h"
 
 // E -> E + E
