@@ -38,7 +38,7 @@ Symbol::Ptr Lexer::GetNext() {
                 value *= 10;
                 value += current - '0';
             } else {
-                std::cout << GRAS JAU << "[Warn] " << RESET
+                std::cerr << GRAS JAU << "[Warn] " << RESET
                           << JAU << "skipped unexpected symbol: " << RESET
                           << current
                           << std::endl;

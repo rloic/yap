@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <array>
 
 #include "Lexer.h"
 #include "State.h"
@@ -18,7 +19,7 @@ public:
 
     void Read();
 
-    void Shift(Symbol::Ptr symbol, State state);
+    void Shift(Symbol::Ptr symbol, State::Id state);
 
     void Reduce(int n, Symbol::Ptr symbol);
 
@@ -31,14 +32,14 @@ private:
 
 private:
     std::vector<Symbol::Ptr> mSymbolsStack;
-    std::vector<State> mStatesStack;
+    std::vector<State::Id> mStatesStack;
     Lexer mLexer;
     bool mDebug;
 
-    using StateTransitions = std::map<Symbol::Id, Transition const *>;
-    using TransitionTable = std::map<State, StateTransitions>;
+    using StateTransitions = std::array<Transition const *, Symbol::NB_SYMBOLS>;
+    using TransitionTable = std::array<StateTransitions, State::NB_STATES>;
     TransitionTable transitions;
 
-    using GotoTransitions = std::map<State, State>;
+    using GotoTransitions = std::map<State::Id, State::Id>;
     GotoTransitions gotoTransitions;
 };

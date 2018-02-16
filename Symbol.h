@@ -11,7 +11,7 @@
 
 class Symbol : public HasPtr<Symbol> {
 public:
-    enum class Id {
+    enum Id : std::size_t {
         Ep,
         E,
         L_PAR,
@@ -19,7 +19,8 @@ public:
         PLUS,
         MULT,
         VAL,
-        Eof
+        Eof,
+        NB_SYMBOLS
     };
 
 public:

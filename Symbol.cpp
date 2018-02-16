@@ -1,5 +1,7 @@
 #include "Symbol.h"
 
+#include <stdexcept>
+
 Symbol::Symbol(Id mID) : mID{mID} {}
 
 Symbol::Ptr Symbol::Clone(const Symbol::Ptr &symbol) {
@@ -43,6 +45,8 @@ std::ostream &operator<<(std::ostream &os, const Symbol::Id &id) {
         case Symbol::Id::Eof:
             os << "$";
             break;
+        default:
+            throw std::invalid_argument("The symbol is invalid.");
     }
     return os;
 }

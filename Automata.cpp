@@ -9,61 +9,62 @@ Automata::Automata(Lexer lexer, bool debug)
           transitions{},
           gotoTransitions{}
 {
-    transitions[State::State0][Symbol::Id::VAL] = &d3;
-    transitions[State::State0][Symbol::Id::L_PAR] = &d2;
+    transitions[State::S0][Symbol::Id::VAL] = &d3;
+    transitions[State::S0][Symbol::Id::L_PAR] = &d2;
 
-    transitions[State::State1][Symbol::Id::PLUS] = &d4;
-    transitions[State::State1][Symbol::Id::MULT] = &d5;
-    transitions[State::State1][Symbol::Id::Eof] = &accept;
+    transitions[State::S1][Symbol::Id::PLUS] = &d4;
+    transitions[State::S1][Symbol::Id::MULT] = &d5;
+    transitions[State::S1][Symbol::Id::Eof] = &accept;
 
-    transitions[State::State2][Symbol::Id::VAL] = &d3;
-    transitions[State::State2][Symbol::Id::L_PAR] = &d2;
+    transitions[State::S2][Symbol::Id::VAL] = &d3;
+    transitions[State::S2][Symbol::Id::L_PAR] = &d2;
 
-    transitions[State::State3][Symbol::Id::PLUS] = &r5;
-    transitions[State::State3][Symbol::Id::MULT] = &r5;
-    transitions[State::State3][Symbol::Id::R_PAR] = &r5;
-    transitions[State::State3][Symbol::Id::Eof] = &r5;
+    transitions[State::S3][Symbol::Id::PLUS] = &r5;
+    transitions[State::S3][Symbol::Id::MULT] = &r5;
+    transitions[State::S3][Symbol::Id::R_PAR] = &r5;
+    transitions[State::S3][Symbol::Id::Eof] = &r5;
 
-    transitions[State::State4][Symbol::Id::VAL] = &d3;
-    transitions[State::State4][Symbol::Id::L_PAR] = &d2;
+    transitions[State::S4][Symbol::Id::VAL] = &d3;
+    transitions[State::S4][Symbol::Id::L_PAR] = &d2;
 
-    transitions[State::State5][Symbol::Id::VAL] = &d3;
-    transitions[State::State5][Symbol::Id::L_PAR] = &d2;
+    transitions[State::S5][Symbol::Id::VAL] = &d3;
+    transitions[State::S5][Symbol::Id::L_PAR] = &d2;
 
-    transitions[State::State6][Symbol::Id::PLUS] = &d4;
-    transitions[State::State6][Symbol::Id::MULT] = &d5;
-    transitions[State::State6][Symbol::Id::R_PAR] = &d9;
+    transitions[State::S6][Symbol::Id::PLUS] = &d4;
+    transitions[State::S6][Symbol::Id::MULT] = &d5;
+    transitions[State::S6][Symbol::Id::R_PAR] = &d9;
 
-    transitions[State::State7][Symbol::Id::PLUS] = &r2;
-    transitions[State::State7][Symbol::Id::MULT] = &d5;
-    transitions[State::State7][Symbol::Id::R_PAR] = &r2;
-    transitions[State::State7][Symbol::Id::Eof] = &r2;
+    transitions[State::S7][Symbol::Id::PLUS] = &r2;
+    transitions[State::S7][Symbol::Id::MULT] = &d5;
+    transitions[State::S7][Symbol::Id::R_PAR] = &r2;
+    transitions[State::S7][Symbol::Id::Eof] = &r2;
 
-    transitions[State::State8][Symbol::Id::PLUS] = &r3;
-    transitions[State::State8][Symbol::Id::MULT] = &r3;
-    transitions[State::State8][Symbol::Id::R_PAR] = &r3;
-    transitions[State::State8][Symbol::Id::Eof] = &r3;
+    transitions[State::S8][Symbol::Id::PLUS] = &r3;
+    transitions[State::S8][Symbol::Id::MULT] = &r3;
+    transitions[State::S8][Symbol::Id::R_PAR] = &r3;
+    transitions[State::S8][Symbol::Id::Eof] = &r3;
 
-    transitions[State::State9][Symbol::Id::PLUS] = &r4;
-    transitions[State::State9][Symbol::Id::MULT] = &r4;
-    transitions[State::State9][Symbol::Id::R_PAR] = &r4;
-    transitions[State::State9][Symbol::Id::Eof] = &r4;
+    transitions[State::S9][Symbol::Id::PLUS] = &r4;
+    transitions[State::S9][Symbol::Id::MULT] = &r4;
+    transitions[State::S9][Symbol::Id::R_PAR] = &r4;
+    transitions[State::S9][Symbol::Id::Eof] = &r4;
 
-    gotoTransitions[State::State0] = State::State1;
-    gotoTransitions[State::State2] = State::State6;
-    gotoTransitions[State::State4] = State::State7;
-    gotoTransitions[State::State5] = State::State8;
+    gotoTransitions[State::S0] = State::S1;
+    gotoTransitions[State::S4] = State::S7;
+    gotoTransitions[State::S5] = State::S8;
+    gotoTransitions[State::S2] = State::S6;
 
 }
 
 void Automata::Read() {
-    mStatesStack.emplace_back(State::State0);
+    mStatesStack.emplace_back(State::S0);
     Symbol::Ptr current;
     do {
         current = mLexer.GetNext();
         if (mDebug) {
             DebugStacks();
-            std::cout << "Symbol: " << *current << std::endl;
+            std::
+            cout << "Symbol: " << *current << std::endl;
         }
     } while (executeTransition(current));
     if (mDebug) DebugStacks();
@@ -77,7 +78,7 @@ void Automata::Read() {
     }
 }
 
-void Automata::Shift(Symbol::Ptr symbol, State state) {
+void Automata::Shift(Symbol::Ptr symbol, State::Id state) {
     mSymbolsStack.push_back(symbol);
     mStatesStack.push_back(state);
 
@@ -102,9 +103,9 @@ Symbol::Ptr Automata::PopSymbol() {
 
 void Automata::DebugStacks() const {
     std::cout << mStatesStack.size() << " states:";
-//    for (auto &state : mStatesStack) {
-//        //std::cout << " " << state; TODO("Implement << for State")
-//    }
+    for (auto &state : mStatesStack) {
+        std::cout << " " << State::Names[state];
+    }
     std::cout << std::endl;
     std::cout << mSymbolsStack.size() << " symbols:";
     for (auto &symbol : mSymbolsStack) {
@@ -116,13 +117,11 @@ void Automata::DebugStacks() const {
 }
 
 bool Automata::executeTransition(Symbol::Ptr symbol) {
-    StateTransitions availableTransitions = transitions[mStatesStack.back()];
-    Transition const *transition;
-    if (availableTransitions.find(symbol->id()) == availableTransitions.end()) {
+    StateTransitions const& availableTransitions = transitions.at(mStatesStack.back());
+    Transition const * transition{availableTransitions.at(symbol->id())};
+    if (!transition) {
         transition = &skip;
         mLexer.MoveNext();
-    } else {
-        transition = availableTransitions[symbol->id()];
     }
     return transition->execute(*this, symbol);
 }
