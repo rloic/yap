@@ -1,6 +1,7 @@
 #include "Transitions.h"
 
 #include "../Common.h"
+#include "../Automata.h"
 #include "../Symbols/NonTerminalSymbols.h"
 
 // E -> E + E

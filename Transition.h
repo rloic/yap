@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Symbol.h"
+
 #include <functional>
 
-#include "../Automata.h"
+class Automata;
 
 class Transition {
 public:

@@ -21,7 +21,7 @@ add_executable(lalr_alamain
         Symbols/TerminalSymbols.h
         Symbols/NonTerminalSymbols.h
         Symbols/ValuedSymbol.h
-        Transitions/Transition.h
+        Transition.h
         Transitions/Reductions.cpp
         Transitions/Shifts.cpp
         Common.h Transitions/Transitions.h)

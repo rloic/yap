@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Transition.h"
+#include "../Transition.h"
 
 extern const Shift accept;
 extern const Shift skip;
