@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Common.h"
 #include "Symbol.h"
+#include "Automata.h"
+
+#include "Singleton.h"
 
 #include <functional>
 
@@ -8,20 +12,74 @@ class Automata;
 
 class Transition {
 public:
-    using TransitionFunction_t = std::function<bool(Automata &, Symbol::Ptr const &)>;
+    virtual bool operator()(Automata &automata, Symbol::Ptr const &symbol) const = 0;
 
-    explicit Transition(TransitionFunction_t &&function) noexcept : mFunction{std::move(function)} {}
-    Transition(Transition const&) = delete;
-    Transition& operator=(Transition const &) = delete;
+    inline bool execute(Automata &automata, Symbol::Ptr const &symbol) const {
+        return operator()(automata, symbol);
+    }
+};
 
-    virtual ~Transition() = default;
-    virtual bool execute(Automata & automata, Symbol::Ptr const & symbol) const {
-        return mFunction(automata, symbol);
+template<State::Id StateId>
+class Shift final : public Transition, public Singleton<Shift<StateId>> {
+public:
+    bool operator()(Automata &automata, Symbol::Ptr const &symbol) const override {
+        automata.Shift(symbol, StateId);
+        return true;
     }
 
-protected:
-    TransitionFunction_t mFunction{};
+private:
+    friend class Singleton<Shift<StateId>>;
+
+    Shift() = default;
+};
+
+class AcceptTransition final : public Transition, public Singleton<AcceptTransition> {
+public:
+    bool operator()(unused Automata &automata, unused Symbol::Ptr const &symbol) const override {
+        return false;
+    }
+
+private:
+    friend class Singleton<AcceptTransition>;
+
+    AcceptTransition() = default;
+};
+
+class SkipTransition final : public Transition, public Singleton<SkipTransition> {
+public:
+    bool operator()(unused Automata &automata, unused Symbol::Ptr const &symbol) const override {
+        return true;
+    }
+
+private:
+    friend class Singleton<SkipTransition>;
+
+    SkipTransition() = default;
+};
+
+class SkipUnexpectedTransition final : public Transition, public Singleton<SkipUnexpectedTransition> {
+public:
+    bool operator()(unused Automata &automata, Symbol::Ptr const &symbol) const override {
+        std::cerr << GRAS JAU << "[Warn] " << RESET JAU << "Skipping unexpected token: " << RESET JAU << *symbol
+                  << RESET << std::endl;
+        return true;
+    }
+
+private:
+    friend class Singleton<SkipUnexpectedTransition>;
+
+    SkipUnexpectedTransition() = default;
 };
 
 using Reduction = Transition;
-using Shift = Transition;
+
+#define NEW_REDUCTION(name, action)                                                     \
+class name : public Reduction, public Singleton<name> {                                 \
+public:                                                                                 \
+bool operator()(Automata &automata, Symbol::Ptr const &symbol) const override {         \
+        action                                                                          \
+    }                                                                                   \
+private:                                                                                \
+    friend class Singleton<name>;                                                       \
+    name() = default;                                                                   \
+};

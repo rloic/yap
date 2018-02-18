@@ -11,6 +11,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_STRICT_WARNINGS}")
 
 add_executable(lalr_alamain
         main.cpp
+        Common.h
+        Singleton.h
         State.h
         Lexer.h Lexer.cpp
         Automata.h Automata.cpp
@@ -22,6 +24,5 @@ add_executable(lalr_alamain
         Symbols/NonTerminalSymbols.h
         Symbols/ValuedSymbol.h
         Transition.h
-        Transitions/Reductions.cpp
-        Transitions/Shifts.cpp
-        Common.h Transitions/Transitions.h)
+        Transitions/Transitions.h
+        )
