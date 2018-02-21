@@ -61,8 +61,10 @@ private:
 class SkipUnexpectedTransition final : public Transition, public Singleton<SkipUnexpectedTransition> {
 public:
     bool operator()(unused Automata &automata, Symbol::Ptr const &symbol) const override {
-        std::cerr << GRAS JAU << "[Warn] " << RESET JAU << "Skipped unexpected token: " << RESET JAU << symbol
-                  << RESET << std::endl;
+        using namespace Colors;
+        std::cerr << bold << yellow << "[Warn] " << reset
+                  << yellow << "Skipped unexpected token: " << reset << yellow << symbol
+                  << reset << std::endl;
         return true;
     }
 

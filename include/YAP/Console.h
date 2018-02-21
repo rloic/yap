@@ -1,24 +1,42 @@
 #pragma once
 
-#define RESET "\x1B[00m"
-#define GRAS "\x1B[01m"
-#define GRIS "\x1B[02m"
-#define GRIS_F "\x1B[30m"
-#define ITALIQUE "\x1B[03m"
-#define SOULIGNE "\x1B[04m"
-#define RGE "\x1B[31m"
-#define VRT "\x1B[32m"
-#define JAU "\x1B[33m"
-#define BLE "\x1B[34m"
-#define MAG "\x1B[35m"
-#define CYN "\x1B[36m"
-#define BLC "\x1B[37m"
-#define FOND_BLC "\x1B[07m"
-#define FOND_RGE "\x1B[41m"
-#define FOND_VRT "\x1B[42m"
-#define FOND_JAU "\x1B[43m"
-#define FOND_BLE "\x1B[44m"
-#define FOND_MAG "\x1B[45m"
-#define FOND_CYN "\x1B[46m"
-#define FOND_GRIS "\x1B[47m"
-#define FOND_GRIS_F "\x1B[40m"
+#include <iostream>
+
+namespace YAP {
+
+namespace Colors {
+
+#define DEFINE_COLOR(name, special_str)        \
+inline std::ostream &name(std::ostream &os) {  \
+    return os << (special_str);                \
+}
+
+DEFINE_COLOR(reset, "\x1B[00m")
+
+DEFINE_COLOR(bold, "\x1B[01m")
+DEFINE_COLOR(italic, "\x1B[03m")
+DEFINE_COLOR(underlined, "\x1B[04m")
+
+DEFINE_COLOR(white, "\x1B[37m")
+DEFINE_COLOR(red, "\x1B[31m")
+DEFINE_COLOR(green, "\x1B[32m")
+DEFINE_COLOR(yellow, "\x1B[33m")
+DEFINE_COLOR(blue, "\x1B[34m")
+DEFINE_COLOR(magenta, "\x1B[35m")
+DEFINE_COLOR(cyan, "\x1B[36m")
+DEFINE_COLOR(grey, "\x1B[02m")
+DEFINE_COLOR(darkgrey, "\x1B[30m")
+
+DEFINE_COLOR(white_bckg, "\x1B[07m")
+DEFINE_COLOR(red_bckg, "\x1B[41m")
+DEFINE_COLOR(green_bckg, "\x1B[42m")
+DEFINE_COLOR(yellow_bckg, "\x1B[43m")
+DEFINE_COLOR(blue_bckg, "\x1B[44m")
+DEFINE_COLOR(magenta_bckg, "\x1B[45m")
+DEFINE_COLOR(cyan_bckg, "\x1B[46m")
+DEFINE_COLOR(grey_bckg, "\x1B[47m")
+DEFINE_COLOR(darkgrey_bckg, "\x1B[40m")
+
+} // namespace Colors
+
+} // namespace YAP

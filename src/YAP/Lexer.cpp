@@ -39,8 +39,9 @@ Symbol::Ptr Lexer::GetNext() {
 
     // It should not, so we handle the error
     if (candidates.empty()) {
-        std::cerr << GRAS JAU << "[Warn] " << RESET
-                  << JAU << "skipped unexpected symbol: " << RESET
+        using namespace Colors;
+        std::cerr << bold << yellow << "[Warn] " << reset
+                  << yellow << "skipped unexpected symbol: " << reset
                   << mInput[mCursor]
                   << std::endl;
         mCursor++;

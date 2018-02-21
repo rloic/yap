@@ -16,10 +16,12 @@ void configureLexer(YAP::Lexer &lexer);
 
 
 int main() {
+    using namespace YAP::Colors;
+
     std::string input;
     std::getline(std::cin, input);
     if (input.empty()) {
-        std::cout << JAU << "Please enter a non-empty expression." << RESET << std::endl;
+        std::cout << yellow << "Please enter a non-empty expression." << reset << std::endl;
         return 0;
     }
 
@@ -36,10 +38,10 @@ int main() {
 
     // Display the result
     if (!dynamic_cast<Expr *>(result.get())) {
-        std::cout << GRAS RGE << "[Error] No result." << RESET << std::endl;
+        std::cout << bold << red << "[Error] No result." << reset << std::endl;
     } else {
-        std::cout << GRAS VRT << "Result: " << RESET
-                  << VRT << dynamic_cast<Expr *>(result.get())->GetValue() << RESET
+        std::cout << bold << green << "Result: " << reset
+                  << green << dynamic_cast<Expr *>(result.get())->GetValue() << reset
                   << std::endl;
     }
 
