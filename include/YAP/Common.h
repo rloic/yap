@@ -8,3 +8,5 @@
 #include <cstdint> // For types like int32_t
 
 #define unused __attribute__((unused))
+
+#define UNUSED(var) (void)(var)

@@ -25,6 +25,10 @@ Symbol::Ptr Automata::Read() {
     return mSymbolsStack.empty() ? Symbol::Ptr() : mSymbolsStack.back();
 }
 
+TransitionAdder Automata::AddTransitions() {
+    return TransitionAdder(*this);
+}
+
 void Automata::AddGoToTransition(State from, State to) {
     goToTransitions[from] = to;
 }
@@ -46,10 +50,8 @@ void Automata::Reduce(int n, Symbol::Ptr symbol) {
     mStatesStack.push_back(goToTransitions[mStatesStack.back()]);
 }
 
-Symbol::Ptr Automata::PopSymbol() {
-    Symbol::Ptr popped{mSymbolsStack.back()};
+void Automata::PopSymbol() {
     mSymbolsStack.pop_back();
-    return popped;
 }
 
 void Automata::DebugStacks() const {

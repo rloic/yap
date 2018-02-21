@@ -3,8 +3,6 @@
 #include <YAP/ValuedSymbol.h>
 #include <YAP/TerminalSymbol.h>
 
-#include <string>
-
 using IntegerType = long long;
 
 // Non terminal symbols

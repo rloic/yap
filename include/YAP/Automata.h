@@ -13,6 +13,22 @@
 
 class Symbol;
 class Transition;
+class Automata;
+
+class TransitionAdder {
+public:
+    template<typename Transition>
+    inline TransitionAdder& Add(State state, Symbol::Id symbol);
+
+    inline TransitionAdder& Add(State from, State to);
+
+private:
+    friend class Automata;
+    explicit TransitionAdder(Automata& automata) : mAutomata{automata} {}
+
+private:
+    Automata &mAutomata;
+};
 
 class Automata {
 public:
@@ -25,13 +41,15 @@ public:
     template<typename Transition>
     void AddTransition(State state, Symbol::Id symbol);
 
+    TransitionAdder AddTransitions();
+
     void AddGoToTransition(State from, State to);
 
     void Shift(Symbol::Ptr symbol, State state);
 
     void Reduce(int n, Symbol::Ptr symbol);
 
-    Symbol::Ptr PopSymbol();
+    void PopSymbol();
 
     template<typename SymbolType, bool Assert = true>
     auto PopSymbolAs();
@@ -71,7 +89,11 @@ auto Automata::PopSymbolAs() {
             "SymbolType must be a child of Symbol!"
     );
 
-    Symbol::Ptr s = PopSymbol();
+    // TODO: Use a Result class
+    assert(!mSymbolsStack.empty() && "Can't pop as the stack is empty.");
+
+    Symbol::Ptr s = mSymbolsStack.back();
+    mSymbolsStack.pop_back();
     auto r = std::dynamic_pointer_cast<SymbolType>(s);
 
     if constexpr (Assert) {
@@ -79,4 +101,15 @@ auto Automata::PopSymbolAs() {
     }
 
     return r;
+}
+
+template<typename Transition>
+TransitionAdder& TransitionAdder::Add(State state, Symbol::Id symbol) {
+    mAutomata.AddTransition<Transition>(state, symbol);
+    return *this;
+}
+
+TransitionAdder& TransitionAdder::Add(State from, State to) {
+    mAutomata.AddGoToTransition(from, to);
+    return *this;
 }
