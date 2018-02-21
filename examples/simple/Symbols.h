@@ -5,14 +5,23 @@
 
 using IntegerType = long long;
 
+enum Symbols : size_t {
+    EXPR,
+    VAL,
+    L_PAR,
+    R_PAR,
+    TIMES,
+    PLUS
+};
+
 // Non terminal symbols
 
-using Expr = YAP::ValuedSymbol<IntegerType, 'E', YAP::Symbol::Id::E>;
-using Val = YAP::ValuedSymbol<IntegerType, 'V', YAP::Symbol::Id::VAL>;
+using Expr = YAP::ValuedSymbol<IntegerType, EXPR, 'E'>;
+using Val = YAP::ValuedSymbol<IntegerType, VAL, 'V'>;
 
 // Terminal symbols
 
-using LPar = YAP::TerminalSymbol<YAP::Symbol::L_PAR>;
-using RPar = YAP::TerminalSymbol<YAP::Symbol::R_PAR>;
-using Mult = YAP::TerminalSymbol<YAP::Symbol::MULT>;
-using Plus = YAP::TerminalSymbol<YAP::Symbol::PLUS>;
+using LPar = YAP::TerminalSymbol<L_PAR, '('>;
+using RPar = YAP::TerminalSymbol<R_PAR, ')'>;
+using Mult = YAP::TerminalSymbol<TIMES, '*'>;
+using Plus = YAP::TerminalSymbol<PLUS, '+'>;

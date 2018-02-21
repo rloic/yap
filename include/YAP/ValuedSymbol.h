@@ -6,7 +6,7 @@
 
 namespace YAP {
 
-template<typename Type, char Name, Symbol::Id const ValueId>
+template<typename Type, Symbol::Id ValueId, char DebugName = '\0'>
 class ValuedSymbol : public Symbol {
 public:
     static Ptr Create(Type value) {
@@ -19,7 +19,7 @@ protected:
     explicit ValuedSymbol(Type value) : Symbol(ValueId), mValue{value} {}
 
     void print(std::ostream &os) const override {
-        os << Name << "(" << mValue << ")";
+        os << DebugName << "(" << mValue << ")";
     }
 
 private:

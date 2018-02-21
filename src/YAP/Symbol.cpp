@@ -2,15 +2,13 @@
 
 #include <YAP/Common.h>
 
+#include <map>
+
 namespace YAP {
 
-Symbol::Symbol(Id mID) : mID{mID} {}
+Symbol::Symbol(size_t id) : mID{id} {}
 
-Symbol::Ptr Symbol::Clone(const Symbol::Ptr &symbol) {
-    return std::make_shared<Symbol>(Symbol(*symbol));
-}
-
-Symbol::Id Symbol::id() const { return mID; }
+size_t Symbol::GetId() const { return mID; }
 
 void Symbol::print(std::ostream &os) const {
     os << mID;
@@ -21,35 +19,8 @@ std::ostream &operator<<(std::ostream &os, const Symbol &symbol) {
     return os;
 }
 
-std::ostream &operator<<(std::ostream &os, const Symbol::Id &id) {
-    switch (id) {
-        case Symbol::Id::Ep:
-            os << "E'";
-            break;
-        case Symbol::Id::E:
-            os << "E";
-            break;
-        case Symbol::Id::L_PAR:
-            os << "(";
-            break;
-        case Symbol::Id::R_PAR:
-            os << ")";
-            break;
-        case Symbol::Id::PLUS:
-            os << "+";
-            break;
-        case Symbol::Id::MULT:
-            os << "*";
-            break;
-        case Symbol::Id::VAL:
-            os << "VAL";
-            break;
-        case Symbol::Id::Eof:
-            os << "$";
-            break;
-        default:
-            throw std::invalid_argument("The symbol is invalid.");
-    }
+std::ostream &operator<<(std::ostream &os, const Symbol::Ptr &symbolPtr) {
+    symbolPtr->print(os);
     return os;
 }
 

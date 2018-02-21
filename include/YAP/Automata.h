@@ -69,7 +69,7 @@ private:
     Lexer mLexer;
     bool mDebug;
 
-    using StateTransitions = std::array<Transition const *, Symbol::NB_SYMBOLS>;
+    using StateTransitions = std::map<Symbol::Id, Transition const *>;
     using TransitionTable = std::map<State, StateTransitions>;
     TransitionTable transitions;
 

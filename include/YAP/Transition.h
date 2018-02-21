@@ -61,7 +61,7 @@ private:
 class SkipUnexpectedTransition final : public Transition, public Singleton<SkipUnexpectedTransition> {
 public:
     bool operator()(unused Automata &automata, Symbol::Ptr const &symbol) const override {
-        std::cerr << GRAS JAU << "[Warn] " << RESET JAU << "Skipping unexpected token: " << RESET JAU << *symbol
+        std::cerr << GRAS JAU << "[Warn] " << RESET JAU << "Skipped unexpected token: " << RESET JAU << symbol
                   << RESET << std::endl;
         return true;
     }

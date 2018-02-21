@@ -4,7 +4,7 @@
 
 namespace YAP {
 
-template<Symbol::Id SymbolId>
+template<Symbol::Id SymbolId, char DebugName = '\0'>
 class TerminalSymbol : public Symbol {
 public:
     static Ptr Create() {
@@ -12,9 +12,14 @@ public:
     }
 
 protected:
+    void print(std::ostream &os) const override {
+        os << DebugName;
+    }
+
+protected:
     TerminalSymbol() : Symbol{SymbolId} {}
 };
 
-using Eof = TerminalSymbol<Symbol::Eof>;
+using Eof = TerminalSymbol<Symbol::Eof, '$'>;
 
 } // namespace YAP

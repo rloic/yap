@@ -6,36 +6,26 @@ namespace YAP {
 
 class Symbol : public HasPtr<Symbol> {
 public:
-    enum Id : std::size_t {
-        Ep,
-        E,
-        L_PAR,
-        R_PAR,
-        PLUS,
-        MULT,
-        VAL,
-        Eof,
-        NB_SYMBOLS
-    };
+    using Id = size_t;
+
+    /// Symbol ids over 2^16 are reserved
+    static const Id Eof = 1U + (1U << 15U);
 
 public:
-    static Ptr Clone(const Symbol::Ptr &symbol);
-
     virtual ~Symbol() = default;
 
-    Id id() const;
+    Id GetId() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Symbol &symbol);
+    friend std::ostream &operator<<(std::ostream &os, const Symbol::Ptr &symbolPtr);
 
 protected:
-    explicit Symbol(Id mID);
+    explicit Symbol(Id id);
 
     virtual void print(std::ostream &os) const;
 
 private:
     Id mID;
 };
-
-std::ostream &operator<<(std::ostream &os, const Symbol::Id &id);
 
 } // namespace YAP

@@ -19,7 +19,7 @@ Symbol::Ptr Automata::Read() {
     do {
         current = mLexer.GetNext();
         if (mDebug) {
-            std::cout << "Symbol: " << *current << std::endl;
+            std::cout << "Symbol: " << current << std::endl;
             DebugStacks();
         }
     } while (executeTransition(current));
@@ -64,7 +64,7 @@ void Automata::DebugStacks() const {
     std::cout << std::endl;
     std::cout << mSymbolsStack.size() << " symbols:";
     for (auto &symbol : mSymbolsStack) {
-        std::cout << " " << *symbol;
+        std::cout << " " << symbol;
     }
     std::cout << std::endl;
 
@@ -73,10 +73,13 @@ void Automata::DebugStacks() const {
 
 bool Automata::executeTransition(Symbol::Ptr symbol) {
     StateTransitions const& availableTransitions = transitions.at(mStatesStack.back());
-    Transition const * transition{availableTransitions.at(symbol->id())};
-    if (!transition) {
+    Transition const * transition{nullptr};
+    auto it = availableTransitions.find(symbol->GetId());
+    if (it == availableTransitions.end()) {
         transition = SkipUnexpectedTransition::InstancePtr();
         mLexer.MoveNext();
+    } else {
+        transition = it->second;
     }
     return transition->execute(*this, symbol);
 }
