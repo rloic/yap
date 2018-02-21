@@ -11,16 +11,19 @@ protected:
     virtual ~Singleton() = default;
 
 public:
+    // Forbid move and copy
+    Singleton(Singleton &&) = delete;
+    Singleton &operator=(Singleton &&) = delete;
     Singleton(const Singleton &) = delete;
     Singleton &operator=(const Singleton &) = delete;
 
 public:
-    static T &Instance() noexcept(std::is_nothrow_constructible<T>::value) {
+    inline static T &Instance() noexcept(std::is_nothrow_constructible<T>::value) {
         static T instance;
         return instance;
     }
 
-    static T *InstancePtr() noexcept(std::is_nothrow_constructible<T>::value) {
+    inline static T *InstancePtr() noexcept(std::is_nothrow_constructible<T>::value) {
         return &T::Instance();
     }
 };
