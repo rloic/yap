@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+namespace YAP {
+
 template<typename Type, char Name, Symbol::Id const ValueId>
 class ValuedSymbol : public Symbol {
 public:
@@ -23,3 +25,5 @@ protected:
 private:
     Type mValue;
 };
+
+} // namespace YAP

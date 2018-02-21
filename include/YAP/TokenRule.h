@@ -5,6 +5,8 @@
 #include <regex>
 #include <utility>
 
+namespace YAP {
+
 class TokenRule {
 public:
     TokenRule() = default;
@@ -85,3 +87,5 @@ private:
     std::regex mRegex;
     FromStringFunc mFromStringFunc;
 };
+
+} // namespace YAP

@@ -7,6 +7,9 @@
 #include <iostream>
 
 namespace Shifts {
+    using YAP::Shift;
+    using YAP::State;
+
     using d2 = Shift<State(2)>;
     using d3 = Shift<State(3)>;
     using d4 = Shift<State(4)>;

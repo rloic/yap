@@ -2,6 +2,8 @@
 
 #include <YAP/Symbol.h>
 
+namespace YAP {
+
 template<Symbol::Id SymbolId>
 class TerminalSymbol : public Symbol {
 public:
@@ -14,3 +16,5 @@ protected:
 };
 
 using Eof = TerminalSymbol<Symbol::Eof>;
+
+} // namespace YAP

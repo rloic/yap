@@ -10,6 +10,9 @@
 
 #include <YAP/Lexer.h>
 #include <YAP/State.h>
+#include <YAP/Common.h>
+
+namespace YAP {
 
 class Symbol;
 class Transition;
@@ -18,13 +21,14 @@ class Automata;
 class TransitionAdder {
 public:
     template<typename Transition>
-    inline TransitionAdder& Add(State state, Symbol::Id symbol);
+    inline TransitionAdder &Add(State state, Symbol::Id symbol);
 
-    inline TransitionAdder& Add(State from, State to);
+    inline TransitionAdder &Add(State from, State to);
 
 private:
     friend class Automata;
-    explicit TransitionAdder(Automata& automata) : mAutomata{automata} {}
+
+    explicit TransitionAdder(Automata &automata) : mAutomata{automata} {}
 
 private:
     Automata &mAutomata;
@@ -104,12 +108,14 @@ auto Automata::PopSymbolAs() {
 }
 
 template<typename Transition>
-TransitionAdder& TransitionAdder::Add(State state, Symbol::Id symbol) {
+TransitionAdder &TransitionAdder::Add(State state, Symbol::Id symbol) {
     mAutomata.AddTransition<Transition>(state, symbol);
     return *this;
 }
 
-TransitionAdder& TransitionAdder::Add(State from, State to) {
+TransitionAdder &TransitionAdder::Add(State from, State to) {
     mAutomata.AddGoToTransition(from, to);
     return *this;
 }
+
+} // namespace YAP

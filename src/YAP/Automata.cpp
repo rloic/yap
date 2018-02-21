@@ -3,6 +3,8 @@
 #include <YAP/Common.h>
 #include <YAP/Transition.h>
 
+namespace YAP {
+
 Automata::Automata(Lexer lexer, bool debug)
         : mLexer{lexer},
           mDebug{debug},
@@ -78,3 +80,5 @@ bool Automata::executeTransition(Symbol::Ptr symbol) {
     }
     return transition->execute(*this, symbol);
 }
+
+} // namespace YAP

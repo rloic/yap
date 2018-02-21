@@ -3,10 +3,11 @@
 #include <YAP/Common.h>
 #include <YAP/Symbol.h>
 #include <YAP/Automata.h>
-
 #include <YAP/Singleton.h>
 
 #include <functional>
+
+namespace YAP {
 
 class Automata;
 
@@ -73,13 +74,15 @@ private:
 
 using Reduction = Transition;
 
-#define NEW_REDUCTION(name, action)                                                     \
-class name : public Reduction, public Singleton<name> {                                 \
-public:                                                                                 \
-bool operator()(Automata &automata, Symbol::Ptr const &symbol) const override {         \
-        action                                                                          \
-    }                                                                                   \
-private:                                                                                \
-    friend class Singleton<name>;                                                       \
-    name() = default;                                                                   \
+#define NEW_REDUCTION(name, action)                                                         \
+class name : public YAP::Reduction, public YAP::Singleton<name> {                           \
+public:                                                                                     \
+bool operator()(YAP::Automata &automata, YAP::Symbol::Ptr const &symbol) const override {   \
+        action                                                                              \
+    }                                                                                       \
+private:                                                                                    \
+    friend class YAP::Singleton<name>;                                                      \
+    name() = default;                                                                       \
 };
+
+} // namespace YAP

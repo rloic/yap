@@ -7,12 +7,12 @@ using IntegerType = long long;
 
 // Non terminal symbols
 
-using Expr = ValuedSymbol<IntegerType, 'E', Symbol::Id::E>;
-using Val = ValuedSymbol<IntegerType, 'V', Symbol::Id::VAL>;
+using Expr = YAP::ValuedSymbol<IntegerType, 'E', YAP::Symbol::Id::E>;
+using Val = YAP::ValuedSymbol<IntegerType, 'V', YAP::Symbol::Id::VAL>;
 
 // Terminal symbols
 
-using LPar = TerminalSymbol<Symbol::L_PAR>;
-using RPar = TerminalSymbol<Symbol::R_PAR>;
-using Mult = TerminalSymbol<Symbol::MULT>;
-using Plus = TerminalSymbol<Symbol::PLUS>;
+using LPar = YAP::TerminalSymbol<YAP::Symbol::L_PAR>;
+using RPar = YAP::TerminalSymbol<YAP::Symbol::R_PAR>;
+using Mult = YAP::TerminalSymbol<YAP::Symbol::MULT>;
+using Plus = YAP::TerminalSymbol<YAP::Symbol::PLUS>;

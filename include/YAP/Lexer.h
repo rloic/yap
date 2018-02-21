@@ -1,10 +1,12 @@
 #pragma once
 
 #include <YAP/Symbol.h>
+#include <YAP/TokenRule.h>
 
 #include <regex>
 #include <map>
-#include "TokenRule.h"
+
+namespace YAP {
 
 class Lexer {
 public:
@@ -45,3 +47,5 @@ void Lexer::RegisterToken(std::regex &&regex, FromStringFunc fromStringFunc) {
             std::move(fromStringFunc)
     });
 }
+
+} // namespace YAP

@@ -6,12 +6,13 @@
 
 #include <YAP/YAP.h>
 
-#include <iostream>
-#include <string>
+#include <iostream> // For cout, endl
+#include <string> // For stoull
 
-void configureAutomata(Automata &automata);
 
-void configureLexer(Lexer &lexer);
+void configureAutomata(YAP::Automata &automata);
+
+void configureLexer(YAP::Lexer &lexer);
 
 
 int main() {
@@ -23,11 +24,11 @@ int main() {
     }
 
     // Create and configure the lexer
-    Lexer lexer(std::move(input));
+    YAP::Lexer lexer(std::move(input));
     configureLexer(lexer);
 
     // Create and configure the automata
-    Automata automata{lexer};
+    YAP::Automata automata{lexer};
     configureAutomata(automata);
 
     // Query the result
@@ -45,9 +46,13 @@ int main() {
     return 0;
 }
 
-void configureAutomata(Automata &automata) {
+void configureAutomata(YAP::Automata &automata) {
     using namespace Shifts;
     using namespace Reductions;
+
+    using YAP::State;
+    using YAP::Symbol;
+    using YAP::AcceptTransition;
 
     automata.AddTransitions()
 
@@ -98,7 +103,7 @@ void configureAutomata(Automata &automata) {
             .Add(State(2), State(6));
 }
 
-void configureLexer(Lexer &lexer) {
+void configureLexer(YAP::Lexer &lexer) {
     lexer.RegisterToken('+', []() { return Plus::Create(); });
     lexer.RegisterToken('*', []() { return Mult::Create(); });
     lexer.RegisterToken('(', []() { return LPar::Create(); });

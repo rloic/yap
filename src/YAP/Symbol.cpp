@@ -2,6 +2,8 @@
 
 #include <YAP/Common.h>
 
+namespace YAP {
+
 Symbol::Symbol(Id mID) : mID{mID} {}
 
 Symbol::Ptr Symbol::Clone(const Symbol::Ptr &symbol) {
@@ -50,3 +52,5 @@ std::ostream &operator<<(std::ostream &os, const Symbol::Id &id) {
     }
     return os;
 }
+
+} // namespace YAP

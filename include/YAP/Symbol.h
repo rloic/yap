@@ -2,6 +2,8 @@
 
 #include <YAP/HasPtr.h>
 
+namespace YAP {
+
 class Symbol : public HasPtr<Symbol> {
 public:
     enum Id : std::size_t {
@@ -35,3 +37,5 @@ private:
 };
 
 std::ostream &operator<<(std::ostream &os, const Symbol::Id &id);
+
+} // namespace YAP

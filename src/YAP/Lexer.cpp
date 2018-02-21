@@ -4,6 +4,8 @@
 #include <YAP/Symbol.h>
 #include <YAP/TerminalSymbol.h>
 
+namespace YAP {
+
 Lexer::Lexer(std::string &&input)
         : mInput{std::move(input)},
           mCursor{0U},
@@ -70,3 +72,5 @@ void Lexer::MoveNext() {
     mCursor += mCurrentSymbolSize;
     mCurrentSymbolSize = 0U;
 }
+
+} // namespace YAP
