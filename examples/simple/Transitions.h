@@ -1,10 +1,10 @@
 #pragma once
 
-#include <YAP/Transition.h>
-#include <YAP/Automata.h>
-#include <YAP/State.h>
-
 #include "Symbols.h"
+
+#include <YAP/YAP.h>
+
+#include <iostream>
 
 namespace Shifts {
     using d2 = Shift<State(2)>;

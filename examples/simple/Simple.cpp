@@ -1,9 +1,9 @@
-#include <iostream>
-
-#include "Transitions.h"
 #include "Symbols.h"
+#include "Transitions.h"
 
-#include <YAP/Automata.h>
+#include <YAP/YAP.h>
+
+#include <iostream>
 #include <string>
 
 int main() {

@@ -2,6 +2,8 @@
 
 #include <YAP/Symbol.h>
 
+#include <iostream>
+
 template<typename Type, char Name, Symbol::Id const ValueId>
 class ValuedSymbol : public Symbol {
 public:
