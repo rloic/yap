@@ -1,6 +1,6 @@
-#include "Symbol.h"
+#include <YAP/Symbol.h>
 
-#include "Common.h"
+#include <YAP/Common.h>
 
 Symbol::Symbol(Id mID) : mID{mID} {}
 

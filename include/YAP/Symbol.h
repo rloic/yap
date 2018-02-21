@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HasPtr.h"
+#include <YAP/HasPtr.h>
 
 class Symbol : public HasPtr<Symbol> {
 public:

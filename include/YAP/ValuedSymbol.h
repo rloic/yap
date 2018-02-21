@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Symbol.h"
+#include <YAP/Symbol.h>
 
 template<typename Type, char Name, Symbol::Id const ValueId>
 class ValuedSymbol : public Symbol {

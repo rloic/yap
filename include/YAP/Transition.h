@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Common.h"
-#include "Symbol.h"
-#include "Automata.h"
+#include <YAP/Common.h>
+#include <YAP/Symbol.h>
+#include <YAP/Automata.h>
 
-#include "Singleton.h"
+#include <YAP/Singleton.h>
 
 #include <functional>
 
@@ -19,7 +19,7 @@ public:
     }
 };
 
-template<State::Id StateId>
+template<State StateId>
 class Shift final : public Transition, public Singleton<Shift<StateId>> {
 public:
     bool operator()(Automata &automata, Symbol::Ptr const &symbol) const override {

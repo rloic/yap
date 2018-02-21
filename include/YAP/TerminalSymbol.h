@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Symbol.h"
+#include <YAP/Symbol.h>
 
 template<Symbol::Id SymbolId>
 class TerminalSymbol : public Symbol {
@@ -12,3 +12,5 @@ public:
 protected:
     TerminalSymbol() : Symbol{SymbolId} {}
 };
+
+using Eof = TerminalSymbol<Symbol::Eof>;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Console.h"
+#include <YAP/Console.h>
 
 #include <iostream>
 #include <cassert>

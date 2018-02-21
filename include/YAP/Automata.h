@@ -8,8 +8,8 @@
 #include <tuple>
 #include <map>
 
-#include "Lexer.h"
-#include "State.h"
+#include <YAP/Lexer.h>
+#include <YAP/State.h>
 
 class Symbol;
 class Transition;
@@ -20,12 +20,14 @@ public:
 
     virtual ~Automata() = default;
 
-    void Read();
+    Symbol::Ptr Read();
 
     template<typename Transition>
-    void AddTransition(State::Id state, Symbol::Id symbol);
+    void AddTransition(State state, Symbol::Id symbol);
 
-    void Shift(Symbol::Ptr symbol, State::Id state);
+    void AddGoToTransition(State from, State to);
+
+    void Shift(Symbol::Ptr symbol, State state);
 
     void Reduce(int n, Symbol::Ptr symbol);
 
@@ -41,23 +43,23 @@ private:
 
 private:
     std::vector<Symbol::Ptr> mSymbolsStack;
-    std::vector<State::Id> mStatesStack;
+    std::vector<State> mStatesStack;
     Lexer mLexer;
     bool mDebug;
 
     using StateTransitions = std::array<Transition const *, Symbol::NB_SYMBOLS>;
-    using TransitionTable = std::array<StateTransitions, State::NB_STATES>;
+    using TransitionTable = std::map<State, StateTransitions>;
     TransitionTable transitions;
 
-    using GotoTransitions = std::map<State::Id, State::Id>;
-    GotoTransitions gotoTransitions;
+    using GotoTransitions = std::map<State, State>;
+    GotoTransitions goToTransitions;
 };
 
 template<class TransitionClass>
-void Automata::AddTransition(State::Id state, Symbol::Id symbol) {
+void Automata::AddTransition(State state, Symbol::Id symbol) {
     static_assert(
             std::is_base_of<Transition, TransitionClass>::value,
-            "Derived not derived from BaseClass"
+            "TransitionClass must be a child of Transition."
     );
     transitions[state][symbol] = TransitionClass::InstancePtr();
 }

@@ -1,15 +1,17 @@
 #pragma once
 
-#include "../Transition.h"
-#include "../Automata.h"
-#include "../Symbols/NonTerminalSymbols.h"
+#include <YAP/Transition.h>
+#include <YAP/Automata.h>
+#include <YAP/State.h>
+
+#include "Symbols.h"
 
 namespace Shifts {
-    using d2 = Shift<State::S2>;
-    using d3 = Shift<State::S3>;
-    using d4 = Shift<State::S4>;
-    using d5 = Shift<State::S5>;
-    using d9 = Shift<State::S9>;
+    using d2 = Shift<State(2)>;
+    using d3 = Shift<State(3)>;
+    using d4 = Shift<State(4)>;
+    using d5 = Shift<State(5)>;
+    using d9 = Shift<State(9)>;
 }
 
 namespace Reductions {
