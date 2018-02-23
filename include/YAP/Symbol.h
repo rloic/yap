@@ -9,7 +9,7 @@ public:
     using Id = size_t;
 
     /// Symbol ids over 2^16 are reserved
-    static const Id Eof = 1U + (1U << 15U);
+    static constexpr Id Eof = 1U + (1U << 15U);
 
 public:
     virtual ~Symbol() = default;

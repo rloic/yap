@@ -8,6 +8,7 @@ project(YAP)
 #set(VERSION_MINOR 0)
 #set(VERSION_PATCH 1)
 
+option(BUILD_TESTS "Whether to generate the tests or not." ON)
 option(BUILD_DOC "Whether to generate the documentation or not." ON)
 option(BUILD_EXAMPLES "Whether to generate the examples or not." ON)
 
@@ -30,13 +31,14 @@ add_subdirectory(src/YAP)
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
+if(BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
 #if(BUILD_DOC)
 #    add_subdirectory(doc)
 #endif()
 
-
+# Configure the library
 file(GLOB YAP_HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "include/YAP/*" "src/YAP/*")
-
 set(YAP_SOURCES ${YAP_HEADERS})
-
 add_library(YAP ${YAP_SOURCES})

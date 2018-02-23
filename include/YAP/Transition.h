@@ -36,7 +36,7 @@ private:
 
 class AcceptTransition final : public Transition, public Singleton<AcceptTransition> {
 public:
-    bool operator()(unused Automata &automata, unused Symbol::Ptr const &symbol) const override {
+    bool operator()(yap_unused Automata &automata, yap_unused Symbol::Ptr const &symbol) const override {
         return false;
     }
 
@@ -48,7 +48,7 @@ private:
 
 class SkipTransition final : public Transition, public Singleton<SkipTransition> {
 public:
-    bool operator()(unused Automata &automata, unused Symbol::Ptr const &symbol) const override {
+    bool operator()(yap_unused Automata &automata, yap_unused Symbol::Ptr const &symbol) const override {
         return true;
     }
 
@@ -60,7 +60,7 @@ private:
 
 class SkipUnexpectedTransition final : public Transition, public Singleton<SkipUnexpectedTransition> {
 public:
-    bool operator()(unused Automata &automata, Symbol::Ptr const &symbol) const override {
+    bool operator()(yap_unused Automata &automata, Symbol::Ptr const &symbol) const override {
         using namespace Colors;
         std::cerr << bold << yellow << "[Warn] " << reset
                   << yellow << "Skipped unexpected token: " << reset << yellow << symbol
@@ -77,7 +77,7 @@ private:
 using Reduction = Transition;
 
 #define NEW_REDUCTION(name, action)                                                         \
-class name : public YAP::Reduction, public YAP::Singleton<name> {                           \
+class name : public YAP::Reduction, public YAP::Singleton<name> { /* NOLINT */              \
 public:                                                                                     \
 bool operator()(YAP::Automata &automata, YAP::Symbol::Ptr const &symbol) const override {   \
         action                                                                              \

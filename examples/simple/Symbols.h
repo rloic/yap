@@ -1,7 +1,6 @@
 #pragma once
 
-#include <YAP/ValuedSymbol.h>
-#include <YAP/TerminalSymbol.h>
+#include <YAP/YAP.h>
 
 using IntegerType = long long;
 

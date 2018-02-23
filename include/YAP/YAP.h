@@ -6,6 +6,8 @@
 #include <YAP/Transition.h>
 #include <YAP/State.h>
 #include <YAP/Symbol.h>
+#include <YAP/TerminalSymbol.h>
+#include <YAP/ValuedSymbol.h>
 
 #include <YAP/Console.h>
 #include <YAP/Common.h>

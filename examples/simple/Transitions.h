@@ -20,7 +20,7 @@ namespace Shifts {
 namespace Reductions {
     // E -> E + E
     NEW_REDUCTION(r2, {
-        UNUSED(symbol);
+        YAP_UNUSED(symbol);
 
         auto const e1 = automata.PopSymbolAs<Expr>();
         automata.PopSymbol();
@@ -34,7 +34,7 @@ namespace Reductions {
 
     // E -> E * E
     NEW_REDUCTION(r3, {
-        UNUSED(symbol);
+        YAP_UNUSED(symbol);
 
         auto const e1 = automata.PopSymbolAs<Expr>();
         automata.PopSymbol();
@@ -48,7 +48,7 @@ namespace Reductions {
 
     // E -> ( E )
     NEW_REDUCTION(r4, {
-        UNUSED(symbol);
+        YAP_UNUSED(symbol);
 
         automata.PopSymbol();
         auto const e2 = automata.PopSymbolAs<Expr>();
@@ -61,7 +61,7 @@ namespace Reductions {
 
     // E -> val
     NEW_REDUCTION(r5, {
-        UNUSED(symbol);
+        YAP_UNUSED(symbol);
 
         auto const v = automata.PopSymbolAs<Val>();
         automata.Reduce(1, Expr::Create(v->GetValue()));

@@ -7,6 +7,6 @@
 #include <stdexcept>
 #include <cstdint> // For types like int32_t
 
-#define unused __attribute__((unused))
+#define yap_unused __attribute__((unused))
 
-#define UNUSED(var) (void)(var)
+#define YAP_UNUSED(var) (void)(var)
