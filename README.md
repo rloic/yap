@@ -3,6 +3,7 @@ YAP - Yet Another Parser
 
 YAP is a library for writing simple automaton-based parsers. It is a trial to make a generic automaton-based parser, motivated by a school lab (CS - INSA Lyon).
 
+
 # Authors
 
 YAP has been created by:
@@ -43,4 +44,6 @@ cmake ..
 # ./examples/<example_name>/<example_name>
 make simple
 ./examples/simple/simple
+
+# Then enter an expression, like "2+(8*oups5)"
 ```
