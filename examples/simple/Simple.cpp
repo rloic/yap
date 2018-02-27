@@ -44,10 +44,6 @@ int main() {
 
     std::string input;
     std::getline(std::cin, input);
-    if (input.empty()) {
-        std::cout << yellow << "Please enter a non-empty expression." << reset << std::endl;
-        return 0;
-    }
 
     // Create and configure the lexer
     YAP::Lexer lexer{std::move(input)};
@@ -84,6 +80,7 @@ void configureAutomata(YAP::Automata &automata) {
 
             .Add<d3>(State(0), VAL)
             .Add<d2>(State(0), L_PAR)
+            .Add<AcceptTransition>(State(0), Symbol::Eof) // Prevent some invalid input from going into infinite loop
 
             .Add<d4>(State(1), PLUS)
             .Add<d5>(State(1), TIMES)
