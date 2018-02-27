@@ -65,8 +65,9 @@ Symbol::Ptr Lexer::GetNext() {
     if (candidates.empty()) {
         using namespace Colors;
         std::cerr << bold << yellow << "[Warn] " << reset
-                  << yellow << "skipped unexpected symbol: " << reset
+                  << yellow << "skipped unexpected symbol: '" << reset
                   << mInput[mCursor]
+                  << yellow << "'" << reset
                   << std::endl;
         mCursor++;
         // TODO: test this recursive return
