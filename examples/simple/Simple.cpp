@@ -122,10 +122,10 @@ void configureAutomata(YAP::Automata &automata) {
             .Add<r4>(State(9), R_PAR)
             .Add<r4>(State(9), Symbol::Eof)
 
-            .Add(State(0), State(1))
-            .Add(State(4), State(7))
-            .Add(State(5), State(8))
-            .Add(State(2), State(6));
+            .Add(State(0), EXPR, State(1))
+            .Add(State(4), EXPR, State(7))
+            .Add(State(5), EXPR, State(8))
+            .Add(State(2), EXPR, State(6));
 }
 
 void configureLexer(YAP::Lexer &lexer) {

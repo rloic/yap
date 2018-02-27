@@ -47,7 +47,7 @@ public:
     template<typename Transition>
     inline TransitionAdder &Add(State state, Symbol::Id symbol);
 
-    inline TransitionAdder &Add(State from, State to);
+    inline TransitionAdder &Add(State fromState, Symbol::Id fromSymbol, State toState);
 
 private:
     friend class Automata;
@@ -71,7 +71,7 @@ public:
 
     TransitionAdder AddTransitions();
 
-    void AddGoToTransition(State from, State to);
+    void AddGoToTransition(State fromState, Symbol::Id fromSymbol, State toState);
 
     void Shift(Symbol::Ptr symbol, State state);
 
@@ -97,7 +97,8 @@ private:
     using TransitionTable = std::map<State, StateTransitions>;
     TransitionTable transitions;
 
-    using GotoTransitions = std::map<State, State>;
+    using SymbolTransitions = std::map<Symbol::Id, State>;
+    using GotoTransitions = std::map<State, SymbolTransitions>;
     GotoTransitions goToTransitions;
 };
 
@@ -137,8 +138,8 @@ TransitionAdder &TransitionAdder::Add(State state, Symbol::Id symbol) {
     return *this;
 }
 
-TransitionAdder &TransitionAdder::Add(State from, State to) {
-    mAutomata.AddGoToTransition(from, to);
+TransitionAdder &TransitionAdder::Add(State fromState, Symbol::Id fromSymbol, State toState) {
+    mAutomata.AddGoToTransition(fromState, fromSymbol, toState);
     return *this;
 }
 

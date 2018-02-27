@@ -55,8 +55,8 @@ TransitionAdder Automata::AddTransitions() {
     return TransitionAdder(*this);
 }
 
-void Automata::AddGoToTransition(State from, State to) {
-    goToTransitions[from] = to;
+void Automata::AddGoToTransition(State fromState, Symbol::Id fromSymbol, State toState) {
+    goToTransitions[fromState][fromSymbol] = toState;
 }
 
 void Automata::Shift(Symbol::Ptr symbol, State state) {
@@ -73,9 +73,7 @@ void Automata::Reduce(int n, Symbol::Ptr symbol) {
         // Symbols are popped in the states' transitions
     }
     mSymbolsStack.push_back(symbol);
-    mStatesStack.push_back(goToTransitions[mStatesStack.back()]);
-
-    // => goto(état, non_terminal)
+    mStatesStack.push_back(goToTransitions[mStatesStack.back()][symbol->GetId()]);
 }
 
 void Automata::PopSymbol() {
