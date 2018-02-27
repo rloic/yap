@@ -91,6 +91,7 @@ void configureAutomata(YAP::Automata &automata) {
 
             .Add<d3>(State(2), VAL)
             .Add<d2>(State(2), L_PAR)
+            .Add<AcceptTransition>(State(2), R_PAR) // Prevent an infinite loop for inputs like "1+()"
 
             .Add<r5>(State(3), PLUS)
             .Add<r5>(State(3), TIMES)
