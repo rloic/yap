@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include <YAP/Automata.h>
+#include <YAP/Automaton.h>
 #include <YAP/Lexer.h>
 
 #include <YAP/Transition.h>

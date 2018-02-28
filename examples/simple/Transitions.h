@@ -46,12 +46,12 @@ namespace Reductions {
     NEW_REDUCTION(r2, {
         YAP_UNUSED(symbol);
 
-        auto const e1 = automata.PopSymbolAs<Expr>();
-        automata.PopSymbol();
-        auto const e3 = automata.PopSymbolAs<Expr>();
+        auto const e1 = automaton.PopSymbolAs<Expr>();
+        automaton.PopSymbol();
+        auto const e3 = automaton.PopSymbolAs<Expr>();
 
         auto result = Expr::Create(e1->GetValue() + e3->GetValue());
-        automata.Reduce(3, result);
+        automaton.Reduce(3, result);
 
         return true;
     })
@@ -60,12 +60,12 @@ namespace Reductions {
     NEW_REDUCTION(r3, {
         YAP_UNUSED(symbol);
 
-        auto const e1 = automata.PopSymbolAs<Expr>();
-        automata.PopSymbol();
-        auto const e3 = automata.PopSymbolAs<Expr>();
+        auto const e1 = automaton.PopSymbolAs<Expr>();
+        automaton.PopSymbol();
+        auto const e3 = automaton.PopSymbolAs<Expr>();
 
         auto result = Expr::Create(e1->GetValue() * e3->GetValue());
-        automata.Reduce(3, result);
+        automaton.Reduce(3, result);
 
         return true;
     })
@@ -74,11 +74,11 @@ namespace Reductions {
     NEW_REDUCTION(r4, {
         YAP_UNUSED(symbol);
 
-        automata.PopSymbol();
-        auto const e2 = automata.PopSymbolAs<Expr>();
-        automata.PopSymbol();
+        automaton.PopSymbol();
+        auto const e2 = automaton.PopSymbolAs<Expr>();
+        automaton.PopSymbol();
 
-        automata.Reduce(3, Expr::Create(e2->GetValue()));
+        automaton.Reduce(3, Expr::Create(e2->GetValue()));
 
         return true;
     })
@@ -87,8 +87,8 @@ namespace Reductions {
     NEW_REDUCTION(r5, {
         YAP_UNUSED(symbol);
 
-        auto const v = automata.PopSymbolAs<Val>();
-        automata.Reduce(1, Expr::Create(v->GetValue()));
+        auto const v = automaton.PopSymbolAs<Val>();
+        automaton.Reduce(1, Expr::Create(v->GetValue()));
         return true;
     })
 }

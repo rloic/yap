@@ -40,7 +40,7 @@ namespace YAP {
 
 class Symbol;
 class Transition;
-class Automata;
+class Automaton;
 
 class TransitionAdder {
 public:
@@ -50,19 +50,19 @@ public:
     inline TransitionAdder &Add(State fromState, Symbol::Id fromSymbol, State toState);
 
 private:
-    friend class Automata;
+    friend class Automaton;
 
-    explicit TransitionAdder(Automata &automata) : mAutomata{automata} {}
+    explicit TransitionAdder(Automaton &automaton) : mAutomaton{automaton} {}
 
 private:
-    Automata &mAutomata;
+    Automaton &mAutomaton;
 };
 
-class Automata {
+class Automaton {
 public:
-    explicit Automata(Lexer lexer, bool debug = false);
+    explicit Automaton(Lexer lexer, bool debug = false);
 
-    virtual ~Automata() = default;
+    virtual ~Automaton() = default;
 
     Symbol::Ptr Read();
 
@@ -103,7 +103,7 @@ private:
 };
 
 template<class TransitionClass>
-void Automata::AddTransition(State state, Symbol::Id symbol) {
+void Automaton::AddTransition(State state, Symbol::Id symbol) {
     static_assert(
             std::is_base_of<Transition, TransitionClass>::value,
             "TransitionClass must be a child of Transition."
@@ -112,7 +112,7 @@ void Automata::AddTransition(State state, Symbol::Id symbol) {
 }
 
 template<typename SymbolType, bool Assert = true>
-auto Automata::PopSymbolAs() {
+auto Automaton::PopSymbolAs() {
     static_assert(
             std::is_base_of<Symbol, SymbolType>::value,
             "SymbolType must be a child of Symbol!"
@@ -134,12 +134,12 @@ auto Automata::PopSymbolAs() {
 
 template<typename Transition>
 TransitionAdder &TransitionAdder::Add(State state, Symbol::Id symbol) {
-    mAutomata.AddTransition<Transition>(state, symbol);
+    mAutomaton.AddTransition<Transition>(state, symbol);
     return *this;
 }
 
 TransitionAdder &TransitionAdder::Add(State fromState, Symbol::Id fromSymbol, State toState) {
-    mAutomata.AddGoToTransition(fromState, fromSymbol, toState);
+    mAutomaton.AddGoToTransition(fromState, fromSymbol, toState);
     return *this;
 }
 

@@ -34,7 +34,7 @@
 #include <string> // For stoull
 
 
-void configureAutomata(YAP::Automata &automata);
+void configureAutomaton(YAP::Automaton &automaton);
 
 void configureLexer(YAP::Lexer &lexer);
 
@@ -49,12 +49,12 @@ int main() {
     YAP::Lexer lexer{std::move(input)};
     configureLexer(lexer);
 
-    // Create and configure the automata
-    YAP::Automata automata{lexer};
-    configureAutomata(automata);
+    // Create and configure the automaton
+    YAP::Automaton automaton{lexer};
+    configureAutomaton(automaton);
 
     // Query the result
-    auto result{automata.Read()};
+    auto result{automaton.Read()};
 
     // Display the result
     if (!dynamic_cast<Expr *>(result.get())) {
@@ -68,7 +68,7 @@ int main() {
     return 0;
 }
 
-void configureAutomata(YAP::Automata &automata) {
+void configureAutomaton(YAP::Automaton &automaton) {
     using namespace Shifts;
     using namespace Reductions;
 
@@ -76,7 +76,7 @@ void configureAutomata(YAP::Automata &automata) {
     using YAP::Symbol;
     using YAP::AcceptTransition;
 
-    automata.AddTransitions()
+    automaton.AddTransitions()
 
             .Add<d3>(State(0), VAL)
             .Add<d2>(State(0), L_PAR)

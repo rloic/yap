@@ -22,21 +22,21 @@
  * SOFTWARE.
 */
 
-#include <YAP/Automata.h>
+#include <YAP/Automaton.h>
 
 #include <YAP/Common.h>
 #include <YAP/Transition.h>
 
 namespace YAP {
 
-Automata::Automata(Lexer lexer, bool debug)
+Automaton::Automaton(Lexer lexer, bool debug)
         : mLexer{lexer},
           mDebug{debug},
           transitions{},
           goToTransitions{}
 {}
 
-Symbol::Ptr Automata::Read() {
+Symbol::Ptr Automaton::Read() {
     mStatesStack.emplace_back(State(0));
     if (mDebug) DebugStacks();
     Symbol::Ptr current;
@@ -51,22 +51,22 @@ Symbol::Ptr Automata::Read() {
     return mSymbolsStack.empty() ? Symbol::Ptr() : mSymbolsStack.back();
 }
 
-TransitionAdder Automata::AddTransitions() {
+TransitionAdder Automaton::AddTransitions() {
     return TransitionAdder(*this);
 }
 
-void Automata::AddGoToTransition(State fromState, Symbol::Id fromSymbol, State toState) {
+void Automaton::AddGoToTransition(State fromState, Symbol::Id fromSymbol, State toState) {
     goToTransitions[fromState][fromSymbol] = toState;
 }
 
-void Automata::Shift(Symbol::Ptr symbol, State state) {
+void Automaton::Shift(Symbol::Ptr symbol, State state) {
     mSymbolsStack.push_back(symbol);
     mStatesStack.push_back(state);
 
     mLexer.MoveNext();
 }
 
-void Automata::Reduce(int n, Symbol::Ptr symbol) {
+void Automaton::Reduce(int n, Symbol::Ptr symbol) {
     for (int i = 0; i < n; ++i) {
         mStatesStack.pop_back();
 
@@ -76,11 +76,11 @@ void Automata::Reduce(int n, Symbol::Ptr symbol) {
     mStatesStack.push_back(goToTransitions[mStatesStack.back()][symbol->GetId()]);
 }
 
-void Automata::PopSymbol() {
+void Automaton::PopSymbol() {
     mSymbolsStack.pop_back();
 }
 
-void Automata::DebugStacks() const {
+void Automaton::DebugStacks() const {
     std::cout << mStatesStack.size() << " states:";
     for (auto &state : mStatesStack) {
         std::cout << " " << state;
@@ -95,7 +95,7 @@ void Automata::DebugStacks() const {
     std::cout << "------------------------------------------" << std::endl;
 }
 
-bool Automata::executeTransition(Symbol::Ptr symbol) {
+bool Automaton::executeTransition(Symbol::Ptr symbol) {
     StateTransitions const& availableTransitions = transitions.at(mStatesStack.back());
     Transition const * transition{nullptr};
     auto it = availableTransitions.find(symbol->GetId());
