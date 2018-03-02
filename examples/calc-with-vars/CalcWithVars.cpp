@@ -38,6 +38,8 @@ void configureAutomaton(YAP::Automaton &automaton);
 
 void configureLexer(YAP::Lexer &lexer);
 
+bool askDebug();
+
 
 int main() {
     using namespace YAP::Colors;
@@ -50,7 +52,7 @@ int main() {
     configureLexer(lexer);
 
     // Create and configure the automaton
-    YAP::Automaton automaton{lexer};
+    YAP::Automaton automaton{lexer, askDebug()};
     configureAutomaton(automaton);
 
     // Query the result
@@ -200,4 +202,15 @@ void configureLexer(YAP::Lexer &lexer) {
     lexer.RegisterToken(std::regex("[A-Z]"), [](std::string const &str) {
         return Const::Create(str);
     });
+}
+
+bool askDebug() {
+
+    using namespace YAP::Colors;
+    std::cout << blue << "Do you want to enable the verbose mode? [y/N] " << reset;
+
+    std::string input;
+    std::getline(std::cin, input);
+
+    return input.empty() && (input[0] == 'y' || input[0] == 'Y');
 }
