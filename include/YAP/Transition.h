@@ -72,7 +72,8 @@ private:
 
 class SkipTransition final : public Transition, public Singleton<SkipTransition> {
 public:
-    bool operator()(yap_unused Automaton &automaton, yap_unused Symbol::Ptr const &symbol) const override {
+    bool operator()(Automaton &automaton, yap_unused Symbol::Ptr const &symbol) const override {
+        automaton.MoveNext();
         return true;
     }
 
@@ -84,11 +85,12 @@ private:
 
 class SkipUnexpectedTransition final : public Transition, public Singleton<SkipUnexpectedTransition> {
 public:
-    bool operator()(yap_unused Automaton &automaton, Symbol::Ptr const &symbol) const override {
+    bool operator()(Automaton &automaton, Symbol::Ptr const &symbol) const override {
         using namespace Colors;
-        std::cerr << bold << yellow << "[Warn] " << reset
+        std::cout << bold << yellow << "[Warn] " << reset
                   << yellow << "Skipped unexpected token: " << reset << yellow << symbol
                   << reset << std::endl;
+        automaton.MoveNext();
         return true;
     }
 

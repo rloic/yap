@@ -25,6 +25,7 @@
 #pragma once
 
 #include "NamedVariableSymbol.h"
+#include "NamedConstSymbol.h"
 
 #include <YAP/YAP.h>
 
@@ -35,10 +36,14 @@ enum Symbols : size_t {
     EXPR,
     VAL,
     VAR,
+    CONST,
     L_PAR,
     R_PAR,
     TIMES,
-    PLUS
+    PLUS,
+    EQUAL,
+    COMMA,
+    SEP
 };
 
 // Non terminal symbols
@@ -46,6 +51,7 @@ enum Symbols : size_t {
 using Expr = YAP::ValuedSymbol<IntegerType, EXPR, 'E'>;
 using Val = YAP::ValuedSymbol<IntegerType, VAL, 'V'>;
 using Var = NamedVariableSymbol<IntegerType, VAR, 'R'>;
+using Const = NamedConstSymbol<IntegerType, CONST, 'C'>;
 
 // Terminal symbols
 
@@ -53,3 +59,6 @@ using LPar = YAP::TerminalSymbol<L_PAR, '('>;
 using RPar = YAP::TerminalSymbol<R_PAR, ')'>;
 using Mult = YAP::TerminalSymbol<TIMES, '*'>;
 using Plus = YAP::TerminalSymbol<PLUS, '+'>;
+using Equal = YAP::TerminalSymbol<EQUAL, '='>;
+using Comma = YAP::TerminalSymbol<COMMA, ','>;
+using Sep = YAP::TerminalSymbol<SEP, ';'>;

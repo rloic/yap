@@ -34,12 +34,19 @@ namespace Shifts {
     using YAP::Shift;
     using YAP::State;
 
+    using d0 = Shift<State(0)>;
+    using d1 = Shift<State(1)>;
     using d2 = Shift<State(2)>;
     using d3 = Shift<State(3)>;
-    using d4 = Shift<State(4)>;
-    using d5 = Shift<State(5)>;
-    using d9 = Shift<State(9)>;
     using d10 = Shift<State(10)>;
+
+    using d12 = Shift<State(12)>;
+    using d13 = Shift<State(13)>;
+    using d14 = Shift<State(14)>;
+    using d15 = Shift<State(15)>;
+    using d19 = Shift<State(19)>;
+    using d20 = Shift<State(20)>;
+    using d21 = Shift<State(21)>;
 }
 
 namespace Reductions {
@@ -53,7 +60,6 @@ namespace Reductions {
 
         auto result = Expr::Create(e1->GetValue() + e3->GetValue());
         automaton.Reduce(3, result);
-
         return true;
     })
 
@@ -67,7 +73,6 @@ namespace Reductions {
 
         auto result = Expr::Create(e1->GetValue() * e3->GetValue());
         automaton.Reduce(3, result);
-
         return true;
     })
 
@@ -80,7 +85,6 @@ namespace Reductions {
         automaton.PopSymbol();
 
         automaton.Reduce(3, Expr::Create(e2->GetValue()));
-
         return true;
     })
 
@@ -99,6 +103,29 @@ namespace Reductions {
 
         auto const v = automaton.PopSymbolAs<Var>();
         automaton.Reduce(1, Expr::Create(v->GetValue()));
+        return true;
+    })
+
+    // E -> const
+    NEW_REDUCTION(r7, {
+        YAP_UNUSED(symbol);
+
+        auto const c = automaton.PopSymbolAs<Const>();
+        automaton.Reduce(1, Expr::Create(c->GetValue()));
+        return true;
+    })
+
+    // const = E -> E
+    NEW_REDUCTION(rconst, {
+        YAP_UNUSED(symbol);
+
+        auto const e = automaton.PopSymbolAs<Expr>();
+        automaton.PopSymbol();
+        auto c = automaton.PopSymbolAs<Const>();
+
+        c->SetValue(e->GetValue());
+
+        automaton.Reduce(3, c);
         return true;
     })
 }

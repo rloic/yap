@@ -34,6 +34,7 @@
 
 #include <YAP/Lexer.h>
 #include <YAP/State.h>
+#include <YAP/State.h>
 #include <YAP/Common.h>
 
 namespace YAP {
@@ -64,7 +65,7 @@ public:
 
     virtual ~Automaton() = default;
 
-    Symbol::Ptr Read();
+    Symbol::Ptr Read(State rootState = State(0));
 
     template<typename Transition>
     void AddTransition(State state, Symbol::Id symbol);
@@ -76,6 +77,8 @@ public:
     void Shift(Symbol::Ptr symbol, State state);
 
     void Reduce(int n, Symbol::Ptr symbol);
+
+    void MoveNext();
 
     void PopSymbol();
 

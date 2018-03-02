@@ -6,6 +6,7 @@ set(SRC
         Symbols.h
         Transitions.h
         NamedVariableSymbol.h
+        NamedConstSymbol.h
         )
 
 add_executable(calcWithVars ${SRC})

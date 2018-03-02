@@ -36,8 +36,8 @@ Automaton::Automaton(Lexer lexer, bool debug)
           goToTransitions{}
 {}
 
-Symbol::Ptr Automaton::Read() {
-    mStatesStack.emplace_back(State(0));
+Symbol::Ptr Automaton::Read(State rootState) {
+    mStatesStack.emplace_back(rootState);
     if (mDebug) DebugStacks();
     Symbol::Ptr current;
     do {
@@ -73,7 +73,31 @@ void Automaton::Reduce(int n, Symbol::Ptr symbol) {
         // Symbols are popped in the states' transitions
     }
     mSymbolsStack.push_back(symbol);
+    auto symbolColumn = goToTransitions.find(mStatesStack.back());
+    if (symbolColumn == goToTransitions.end()
+        || symbolColumn->second.find(symbol->GetId()) == symbolColumn->second.end()) { // Missing transition
+        using namespace Colors;
+        std::cout << bold << red << "[Critical] " << reset
+                  << red << "missing goto transition: " << reset
+                  << cyan << "(State(" << mStatesStack.back() << ')'
+                  << ", " << symbol << ')' << reset
+                  << std::endl;
+        exit(1);
+    }
+    if (mDebug) {
+        using namespace Colors;
+        std::cout << bold << blue << "[Debug] " << reset
+                  << blue << "using goto transition: " << reset
+                  << cyan << "(State(" << mStatesStack.back() << ')'
+                  << ", " << symbol << ')' << reset
+                  << yellow << " = State(" << goToTransitions[mStatesStack.back()][symbol->GetId()] << ')' << reset
+                  << std::endl;
+    }
     mStatesStack.push_back(goToTransitions[mStatesStack.back()][symbol->GetId()]);
+}
+
+void Automaton::MoveNext() {
+    mLexer.MoveNext();
 }
 
 void Automaton::PopSymbol() {
@@ -96,6 +120,15 @@ void Automaton::DebugStacks() const {
 }
 
 bool Automaton::executeTransition(Symbol::Ptr symbol) {
+    if (transitions.find(mStatesStack.back()) == transitions.end()) { // Missing transition
+        using namespace Colors;
+        std::cout << bold << red << "[Critical] " << reset
+                  << red << "missing transition: " << reset
+                  << cyan << "(State(" << mStatesStack.back() << ')'
+                  << ", " << symbol << ')' << reset
+                  << std::endl;
+        exit(1);
+    }
     StateTransitions const& availableTransitions = transitions.at(mStatesStack.back());
     Transition const * transition{nullptr};
     auto it = availableTransitions.find(symbol->GetId());
@@ -104,6 +137,14 @@ bool Automaton::executeTransition(Symbol::Ptr symbol) {
         mLexer.MoveNext();
     } else {
         transition = it->second;
+    }
+    if (mDebug) {
+        using namespace Colors;
+        std::cout << bold << blue << "[Debug] " << reset
+                  << blue << "using transition: " << reset
+                  << cyan << "(State(" << mStatesStack.back() << ')'
+                  << ", " << symbol << ')' << reset
+                  << std::endl;
     }
     return transition->execute(*this, symbol);
 }

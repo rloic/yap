@@ -64,7 +64,7 @@ Symbol::Ptr Lexer::GetNext() {
     // It should not, so we handle the error
     if (candidates.empty()) {
         using namespace Colors;
-        std::cerr << bold << yellow << "[Warn] " << reset
+        std::cout << bold << yellow << "[Warn] " << reset
                   << yellow << "skipped unexpected symbol: '" << reset
                   << mInput[mCursor]
                   << yellow << "'" << reset

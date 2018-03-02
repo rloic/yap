@@ -54,7 +54,7 @@ int main() {
     configureAutomaton(automaton);
 
     // Query the result
-    auto result{automaton.Read()};
+    auto result{automaton.Read(YAP::State(0))};
 
     // Display the result
     if (!dynamic_cast<Expr *>(result.get())) {
@@ -75,64 +75,112 @@ void configureAutomaton(YAP::Automaton &automaton) {
     using YAP::State;
     using YAP::Symbol;
     using YAP::AcceptTransition;
+    using YAP::SkipTransition;
 
     automaton.AddTransitions()
 
-            .Add<d3>(State(0), VAL)
-            .Add<d10>(State(0), VAR)
-            .Add<d2>(State(0), L_PAR)
-            .Add<AcceptTransition>(State(0), Symbol::Eof) // Prevent some invalid input from going into infinite loop
+            .Add<d10>(State(0), SEP)
+            .Add<d2>(State(0), CONST)
+            .Add<d13>(State(0), VAL)
+            .Add<d20>(State(0), VAR)
+            .Add<d12>(State(0), L_PAR)
+            .Add<AcceptTransition>(State(0), Symbol::Eof)
 
-            .Add<d4>(State(1), PLUS)
-            .Add<d5>(State(1), TIMES)
+            .Add<d10>(State(1), SEP)
             .Add<AcceptTransition>(State(1), Symbol::Eof)
 
-            .Add<d3>(State(2), VAL)
-            .Add<d10>(State(2), VAR)
-            .Add<d2>(State(2), L_PAR)
-            .Add<AcceptTransition>(State(2), R_PAR) // Prevent an infinite loop for inputs like "1+()"
+            .Add<d10>(State(2), EQUAL)
+            .Add<AcceptTransition>(State(2), Symbol::Eof)
 
-            .Add<r5>(State(3), PLUS)
-            .Add<r5>(State(3), TIMES)
-            .Add<r5>(State(3), R_PAR)
-            .Add<r5>(State(3), Symbol::Eof)
+            .Add<rconst>(State(3), COMMA)
+            .Add<rconst>(State(3), SEP)
 
-            .Add<d3>(State(4), VAL)
-            .Add<d10>(State(4), VAR)
-            .Add<d2>(State(4), L_PAR)
+            .Add<d13>(State(10), VAL)
+            .Add<d20>(State(10), VAR)
+            .Add<d21>(State(10), CONST)
+            .Add<d12>(State(10), L_PAR)
+            .Add<d0>(State(10), COMMA)
+            .Add<SkipTransition>(State(10), SEP)
+            .Add<AcceptTransition>(State(10), Symbol::Eof)
 
-            .Add<d3>(State(5), VAL)
-            .Add<d10>(State(5), VAR)
-            .Add<d2>(State(5), L_PAR)
+            .Add<d14>(State(11), PLUS)
+            .Add<d15>(State(11), TIMES)
+            .Add<rconst>(State(11), COMMA)
+            .Add<rconst>(State(11), SEP)
+            .Add<d3>(State(11), Symbol::Eof)
+            .Add<AcceptTransition>(State(11), Symbol::Eof)
 
-            .Add<d4>(State(6), PLUS)
-            .Add<d5>(State(6), TIMES)
-            .Add<d9>(State(6), R_PAR)
+            .Add<d13>(State(12), VAL)
+            .Add<d20>(State(12), VAR)
+            .Add<d21>(State(12), CONST)
+            .Add<d12>(State(12), L_PAR)
+            .Add<AcceptTransition>(State(12), R_PAR) // Prevent an infinite loop for inputs like "1+()"
+            .Add<AcceptTransition>(State(12), Symbol::Eof) // Prevent an infinite loop for inputs like "(=)"
 
-            .Add<r2>(State(7), PLUS)
-            .Add<d5>(State(7), TIMES)
-            .Add<r2>(State(7), R_PAR)
-            .Add<r2>(State(7), Symbol::Eof)
+            .Add<r5>(State(13), PLUS)
+            .Add<r5>(State(13), TIMES)
+            .Add<r5>(State(13), R_PAR)
+            .Add<r5>(State(13), SEP)
+            .Add<r5>(State(13), COMMA)
+            .Add<r5>(State(13), Symbol::Eof)
 
-            .Add<r3>(State(8), PLUS)
-            .Add<r3>(State(8), TIMES)
-            .Add<r3>(State(8), R_PAR)
-            .Add<r3>(State(8), Symbol::Eof)
+            .Add<d13>(State(14), VAL)
+            .Add<d20>(State(14), VAR)
+            .Add<d21>(State(14), CONST)
+            .Add<d12>(State(14), L_PAR)
 
-            .Add<r4>(State(9), PLUS)
-            .Add<r4>(State(9), TIMES)
-            .Add<r4>(State(9), R_PAR)
-            .Add<r4>(State(9), Symbol::Eof)
+            .Add<d13>(State(15), VAL)
+            .Add<d20>(State(15), VAR)
+            .Add<d21>(State(15), CONST)
+            .Add<d12>(State(15), L_PAR)
 
-            .Add<r6>(State(10), PLUS)
-            .Add<r6>(State(10), TIMES)
-            .Add<r6>(State(10), R_PAR)
-            .Add<r6>(State(10), Symbol::Eof)
+            .Add<d14>(State(16), PLUS)
+            .Add<d15>(State(16), TIMES)
+            .Add<d19>(State(16), R_PAR)
+            .Add<d3>(State(16), SEP)
+            .Add<d3>(State(16), COMMA)
 
-            .Add(State(0), EXPR, State(1))
-            .Add(State(4), EXPR, State(7))
-            .Add(State(5), EXPR, State(8))
-            .Add(State(2), EXPR, State(6));
+            .Add<r2>(State(17), PLUS)
+            .Add<d15>(State(17), TIMES)
+            .Add<r2>(State(17), R_PAR)
+            .Add<r2>(State(17), SEP)
+            .Add<r2>(State(17), COMMA)
+            .Add<r2>(State(17), Symbol::Eof)
+
+            .Add<r3>(State(18), PLUS)
+            .Add<r3>(State(18), TIMES)
+            .Add<r3>(State(18), R_PAR)
+            .Add<r3>(State(18), SEP)
+            .Add<r3>(State(18), COMMA)
+            .Add<r3>(State(18), Symbol::Eof)
+
+            .Add<r4>(State(19), PLUS)
+            .Add<r4>(State(19), TIMES)
+            .Add<r4>(State(19), R_PAR)
+            .Add<r4>(State(19), SEP)
+            .Add<r4>(State(19), COMMA)
+            .Add<r4>(State(19), Symbol::Eof)
+
+            .Add<r6>(State(20), PLUS)
+            .Add<r6>(State(20), TIMES)
+            .Add<r6>(State(20), R_PAR)
+            .Add<r6>(State(20), SEP)
+            .Add<r6>(State(20), COMMA)
+            .Add<r6>(State(20), Symbol::Eof)
+
+            .Add<r7>(State(21), PLUS)
+            .Add<r7>(State(21), TIMES)
+            .Add<r7>(State(21), R_PAR)
+            .Add<r7>(State(21), SEP)
+            .Add<r7>(State(21), COMMA)
+            .Add<r7>(State(21), Symbol::Eof)
+
+            .Add(State(0), CONST, State(10))
+            .Add(State(0), EXPR, State(11))
+            .Add(State(10), EXPR, State(11))
+            .Add(State(14), EXPR, State(17))
+            .Add(State(15), EXPR, State(18))
+            .Add(State(12), EXPR, State(16));
 }
 
 void configureLexer(YAP::Lexer &lexer) {
@@ -140,11 +188,16 @@ void configureLexer(YAP::Lexer &lexer) {
     lexer.RegisterToken('*', []() { return Mult::Create(); });
     lexer.RegisterToken('(', []() { return LPar::Create(); });
     lexer.RegisterToken(')', []() { return RPar::Create(); });
+    lexer.RegisterToken('=', []() { return Equal::Create(); });
+    lexer.RegisterToken(';', []() { return Sep::Create(); });
+    lexer.RegisterToken(',', []() { return Comma::Create(); });
     lexer.RegisterToken(std::regex("[0-9]"), [](std::string const &str) {
         return Val::Create(std::stoull(str));
     });
-    static std::map<std::string, IntegerType> variables;
     lexer.RegisterToken(std::regex("[a-z]"), [](std::string const &str) {
         return Var::Create(str);
+    });
+    lexer.RegisterToken(std::regex("[A-Z]"), [](std::string const &str) {
+        return Const::Create(str);
     });
 }

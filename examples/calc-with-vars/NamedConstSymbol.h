@@ -30,32 +30,46 @@
 
 
 template<typename Type, YAP::Symbol::Id ValueId, char DebugName = '\0'>
-class NamedVariableSymbol : public YAP::Symbol {
+class NamedConstSymbol : public YAP::Symbol {
 public:
     static Ptr Create(std::string const& name) {
-        return Ptr(new NamedVariableSymbol(name));
+        return Ptr(new NamedConstSymbol(name));
     }
 
-    Type GetValue() const {
-        static std::map<std::string, Type> values;
+    Type GetValue() {
+        return GetSetValue();
+    }
 
-        // Ask for the variable value, once
-        auto found = values.find(mName);
-        if (found == values.end()) {
-            std::cout << "Enter the value of <" << mName << ">: ";
-            Type value{};
-            std::cin >> value;
-            values[mName] = value;
-        }
-
-        return values[mName];
+    void SetValue(Type value) {
+        GetSetValue(true, value);
     }
 
 protected:
-    explicit NamedVariableSymbol(std::string name) : Symbol(ValueId), mName{std::move(name)} {}
+    explicit NamedConstSymbol(std::string name)
+            : Symbol(ValueId),
+              mName{std::move(name)}
+    {}
 
     void print(std::ostream &os) const override {
         os << DebugName << "(name=" << mName << ")";
+    }
+
+    Type GetSetValue(bool set = false, Type value = {}) {
+        static std::map<std::string, Type> values;
+        if (set) {
+            values[mName] = std::move(value);
+            return value;
+        } else {
+            if (values.find(mName) == values.end()) {
+                using namespace YAP::Colors;
+                std::cout << bold << red << "[Critical] " << reset
+                          << red << "Must be defined: " << reset
+                          << cyan << mName << reset
+                          << std::endl;
+                exit(1);
+            }
+            return values[mName];
+        }
     }
 
 private:
