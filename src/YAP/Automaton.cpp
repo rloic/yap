@@ -41,9 +41,18 @@ Symbol::Ptr Automaton::Read(State rootState) {
     if (mDebug) DebugStacks();
     Symbol::Ptr current;
     do {
+        if (mDebug) {
+            using namespace Colors;
+            std::cout << bold << blue << "[Debug] " << reset
+                      << grey << "------------------------------------------" << reset << std::endl;
+        }
         current = mLexer.GetNext();
         if (mDebug) {
-            std::cout << "Symbol: " << current << std::endl;
+            using namespace Colors;
+            std::cout << bold << blue << "[Debug] " << reset
+                      << grey << "Read symbol: " << reset
+                      << cyan << current << reset
+                      << std::endl;
             DebugStacks();
         }
     } while (executeTransition(current));
@@ -90,7 +99,7 @@ void Automaton::Reduce(int n, Symbol::Ptr symbol) {
                   << blue << "using goto transition: " << reset
                   << cyan << "(State(" << mStatesStack.back() << ')'
                   << ", " << symbol << ')' << reset
-                  << yellow << " = State(" << goToTransitions[mStatesStack.back()][symbol->GetId()] << ')' << reset
+                  << yellow << " => State(" << goToTransitions[mStatesStack.back()][symbol->GetId()] << ')' << reset
                   << std::endl;
     }
     mStatesStack.push_back(goToTransitions[mStatesStack.back()][symbol->GetId()]);
@@ -105,18 +114,20 @@ void Automaton::PopSymbol() {
 }
 
 void Automaton::DebugStacks() const {
-    std::cout << mStatesStack.size() << " states:";
-    for (auto &state : mStatesStack) {
-        std::cout << " " << state;
-    }
-    std::cout << std::endl;
-    std::cout << mSymbolsStack.size() << " symbols:";
-    for (auto &symbol : mSymbolsStack) {
-        std::cout << " " << symbol;
-    }
-    std::cout << std::endl;
+    using namespace Colors;
 
-    std::cout << "------------------------------------------" << std::endl;
+    std::cout << bold << blue << "[Debug] " << reset
+              << magenta << mStatesStack.size() << " states:" << reset;
+    for (auto &state : mStatesStack) {
+        std::cout << " " << cyan << state << reset;
+    }
+    std::cout << std::endl;
+    std::cout << bold << blue << "[Debug] " << reset
+              << magenta << mSymbolsStack.size() << " symbols:" << reset;
+    for (auto &symbol : mSymbolsStack) {
+        std::cout << " " << cyan << symbol << reset;
+    }
+    std::cout << std::endl;
 }
 
 bool Automaton::executeTransition(Symbol::Ptr symbol) {
